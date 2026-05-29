@@ -197,6 +197,30 @@ private DomContent toolPage(Map<String, List<String>> data, DomContent content) 
 
 }
 
+private static DomContent projectCard(String htmlFileName, Map<String, List<String>> data) {
+  String toolName = data.getOrDefault("name", List.of("Tool")).get(0);
+  String toolCategory = data.getOrDefault("category", List.of("")).get(0);
+  String toolType = data.getOrDefault("type", List.of("")).get(0);
+  List<String> tags = data.getOrDefault("tags", List.of());
+
+  return a(
+    div(
+      div(toolCategory).withClass("project-category"),
+      div(toolName).withClass("project-name"),
+      div(toolType).withClass("project-type"),
+      tags.isEmpty() ? text("") : div(
+        each(tags, tag -> span(tag).withClass("card-tag"))
+      ).withClass("card-tags")
+    ).withClass("project-card-content")
+  )
+    .withHref(htmlFileName)
+    .attr("hx-get", htmlFileName)
+    .attr("hx-target", "body")
+    .attr("hx-swap", "innerHTML transition:true show:window:top")
+    .attr("hx-push-url", "true")
+    .withClass("project-card");
+}
+
 private static Set<String> collectUniqueTags(Map<String, Map<String, List<String>>> markdownData) {
   Set<String> uniqueTags = new HashSet<>();
   for (Map<String, List<String>> data : markdownData.values()) {
@@ -231,25 +255,7 @@ static DomContent tagPage(String tag, Map<String, Map<String, List<String>>> mar
     ),
     h1("Tools: " + tag),
     div(
-      each(filteredTools.entrySet(), entry -> {
-        String htmlFileName = entry.getKey();
-        String toolName = entry.getValue().getOrDefault("name", List.of("Tool")).get(0);
-        String toolCategory = entry.getValue().getOrDefault("category", List.of("")).get(0);
-        String toolType = entry.getValue().getOrDefault("type", List.of("")).get(0);
-        return a(
-          div(
-            div(toolCategory).withClass("project-category"),
-            div(toolName).withClass("project-name"),
-            div(toolType).withClass("project-type")
-          ).withClass("project-card-content")
-        )
-          .withHref(htmlFileName)
-          .attr("hx-get", htmlFileName)
-          .attr("hx-target", "body")
-          .attr("hx-swap", "innerHTML transition:true show:window:top")
-          .attr("hx-push-url", "true")
-          .withClass("project-card");
-      })
+      each(filteredTools.entrySet(), entry -> projectCard(entry.getKey(), entry.getValue()))
     ).withClass("project-list")
   ).withId("main-content");
 }
@@ -257,25 +263,7 @@ static DomContent tagPage(String tag, Map<String, Map<String, List<String>>> mar
 // Grid content for initial page render (alphabetical)
 static DomContent gridAlphabeticalContent(Map<String, Map<String, List<String>>> markdownData) {
   return div(
-    each(markdownData.entrySet(), entry -> {
-      String htmlFileName = entry.getKey();
-      String toolName = entry.getValue().getOrDefault("name", List.of("Tool")).get(0);
-      String toolCategory = entry.getValue().getOrDefault("category", List.of("")).get(0);
-      String toolType = entry.getValue().getOrDefault("type", List.of("")).get(0);
-      return a(
-        div(
-          div(toolCategory).withClass("project-category"),
-          div(toolName).withClass("project-name"),
-          div(toolType).withClass("project-type")
-        ).withClass("project-card-content")
-      )
-        .withHref(htmlFileName)
-        .attr("hx-get", htmlFileName)
-        .attr("hx-target", "body")
-        .attr("hx-swap", "innerHTML transition:true show:window:top")
-        .attr("hx-push-url", "true")
-        .withClass("project-card");
-    })
+    each(markdownData.entrySet(), entry -> projectCard(entry.getKey(), entry.getValue()))
   ).withClass("project-list").withId("browse-section");
 }
 
@@ -304,25 +292,7 @@ static DomContent gridByTagContent(Map<String, Map<String, List<String>>> markdo
       return div(
         h2(tag).withClass("tag-group-title"),
         div(
-          each(filteredTools.entrySet(), entry -> {
-            String htmlFileName = entry.getKey();
-            String toolName = entry.getValue().getOrDefault("name", List.of("Tool")).get(0);
-            String toolCategory = entry.getValue().getOrDefault("category", List.of("")).get(0);
-            String toolType = entry.getValue().getOrDefault("type", List.of("")).get(0);
-            return a(
-              div(
-                div(toolCategory).withClass("project-category"),
-                div(toolName).withClass("project-name"),
-                div(toolType).withClass("project-type")
-              ).withClass("project-card-content")
-            )
-              .withHref(htmlFileName)
-              .attr("hx-get", htmlFileName)
-              .attr("hx-target", "body")
-              .attr("hx-swap", "innerHTML transition:true show:window:top")
-              .attr("hx-push-url", "true")
-              .withClass("project-card");
-          })
+          each(filteredTools.entrySet(), entry -> projectCard(entry.getKey(), entry.getValue()))
         ).withClass("project-list")
       ).withClass("tag-group");
     })
@@ -349,25 +319,7 @@ static DomContent gridByDateContent(Map<String, Map<String, List<String>>> markd
     .forEach(entry -> sortedData.put(entry.getKey(), entry.getValue()));
 
   return div(
-    each(sortedData.entrySet(), entry -> {
-      String htmlFileName = entry.getKey();
-      String toolName = entry.getValue().getOrDefault("name", List.of("Tool")).get(0);
-      String toolCategory = entry.getValue().getOrDefault("category", List.of("")).get(0);
-      String toolType = entry.getValue().getOrDefault("type", List.of("")).get(0);
-      return a(
-        div(
-          div(toolCategory).withClass("project-category"),
-          div(toolName).withClass("project-name"),
-          div(toolType).withClass("project-type")
-        ).withClass("project-card-content")
-      )
-        .withHref(htmlFileName)
-        .attr("hx-get", htmlFileName)
-        .attr("hx-target", "body")
-        .attr("hx-swap", "innerHTML transition:true show:window:top")
-        .attr("hx-push-url", "true")
-        .withClass("project-card");
-    })
+    each(sortedData.entrySet(), entry -> projectCard(entry.getKey(), entry.getValue()))
   ).withClass("project-list").withId("browse-section");
 }
 

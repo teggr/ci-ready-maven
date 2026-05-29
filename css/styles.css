@@ -425,6 +425,27 @@ p {
   margin-top: var(--spacing-xs);
 }
 
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
+
+.card-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  background: rgba(198, 33, 40, 0.08);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid rgba(198, 33, 40, 0.2);
+}
+
 /* Top accent bar on cards */
 .project-card::before {
   content: '';
