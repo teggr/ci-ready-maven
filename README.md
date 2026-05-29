@@ -29,6 +29,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | JaCoCo Maven Plugin | Coverage |
 | google-java-format | Source Code Policy / Formatting |
 | Palantir Java Format | Source Code Policy / Formatting |
+| Spotless Maven Plugin | Source Code Policy / Formatting |
 | SortPOM Maven Plugin | Source Code Policy / Formatting |
 | JHarmonizer | Source Code Policy / Source Structure |
 | License Maven Plugin | Security and Compliance |
