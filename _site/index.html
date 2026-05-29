@@ -1,0 +1,281 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            CI Ready Maven - Maven Plugins for CI Pipelines and Quality Gates
+        </title>
+        <meta name="description" content="A catalogue of Maven plugins and utilities for building robust CI pipelines and quality gates in enterprise Java projects.">
+        <meta name="keywords" content="Maven, CI, Quality Gates, Java, DevOps">
+        <meta name="author" content="CI Ready Maven Community">
+        <meta name="robots" content="index, follow">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="CI Ready Maven - Maven Plugins for CI Pipelines and Quality Gates">
+        <meta property="og:description" content="A catalogue of Maven plugins and utilities for building robust CI pipelines and quality gates in enterprise Java projects.">
+        <meta property="og:image" content="https://teggr.github.io/ci-ready-maven/maven-logo.png">
+        <meta property="og:url" content="https://teggr.github.io/ci-ready-maven/">
+        <meta property="og:site_name" content="CI Ready Maven">
+        <meta property="og:locale" content="en_US">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="CI Ready Maven - Maven Plugins for CI Pipelines and Quality Gates">
+        <meta name="twitter:description" content="A catalogue of Maven plugins and utilities for building robust CI pipelines and quality gates in enterprise Java projects.">
+        <meta name="twitter:image" content="https://teggr.github.io/ci-ready-maven/maven-logo.png">
+        <link rel="canonical" href="https://teggr.github.io/ci-ready-maven/">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&amp;display=swap">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <script src="https://unpkg.com/htmx.org@2.0.4">
+        </script>
+    </head>
+    <body>
+        <div id="main-content">
+            <div class="hero-section">
+                <div class="hero-left">
+                    <h1 class="hero-title">
+                        CI Ready Maven
+                    </h1>
+                    <a href="https://github.com/teggr/ci-ready-maven" target="_blank" rel="noopener noreferrer" class="github-cta">
+                        <i class="bi bi-github">
+                        </i>
+                         Contribute on GitHub
+                    </a>
+                </div>
+                <div class="hero-right">
+                    <p>
+                        A catalogue of Maven plugins and utilities to help Java developers build robust CI pipelines and quality gates. Discover the tools that keep enterprise codebases clean, tested, secure, and maintainable.
+                    </p>
+                    <p>
+                        Each tool is documented with its Maven coordinates, category, a concise description, and a ready-to-use configuration example. Whether you are setting up a new project or tightening an existing pipeline, find the right plugin for every layer of your quality stack.
+                    </p>
+                </div>
+            </div>
+            <div class="sort-controls-section">
+                <div class="sort-button-group" id="sort-buttons">
+                    <button class="sort-btn active" hx-get="grid-alphabetical.html" hx-target="#browse-section" hx-swap="outerHTML transition:true">
+                        <i class="bi bi-sort-alpha-down">
+                        </i>
+                         Alphabetical
+                    </button>
+                    <button class="sort-btn" hx-get="grid-by-tag.html" hx-target="#browse-section" hx-swap="outerHTML transition:true">
+                        <i class="bi bi-tags">
+                        </i>
+                         Category
+                    </button>
+                    <button class="sort-btn" hx-get="grid-by-date.html" hx-target="#browse-section" hx-swap="outerHTML transition:true">
+                        <i class="bi bi-clock-history">
+                        </i>
+                         Recently Added
+                    </button>
+                </div>
+            </div>
+            <div class="project-list" id="browse-section">
+                <a href="google-java-format.html" hx-get="google-java-format.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Source Code Policy
+                        </div>
+                        <div class="project-name">
+                            google-java-format
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin / CLI Tool
+                        </div>
+                    </div>
+                </a>
+                <a href="jacoco-maven-plugin.html" hx-get="jacoco-maven-plugin.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Coverage
+                        </div>
+                        <div class="project-name">
+                            JaCoCo Maven Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+                <a href="jharmonizer.html" hx-get="jharmonizer.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Source Code Policy
+                        </div>
+                        <div class="project-name">
+                            JHarmonizer
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin / CLI Tool
+                        </div>
+                    </div>
+                </a>
+                <a href="license-maven-plugin.html" hx-get="license-maven-plugin.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Security and Compliance
+                        </div>
+                        <div class="project-name">
+                            License Maven Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+                <a href="maven-enforcer-plugin.html" hx-get="maven-enforcer-plugin.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Dependency Governance
+                        </div>
+                        <div class="project-name">
+                            Maven Enforcer Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+                <a href="maven-pmd-plugin.html" hx-get="maven-pmd-plugin.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Static Analysis
+                        </div>
+                        <div class="project-name">
+                            PMD Maven Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+                <a href="owasp-dependency-check.html" hx-get="owasp-dependency-check.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Security and Compliance
+                        </div>
+                        <div class="project-name">
+                            OWASP Dependency-Check Maven Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+                <a href="palantir-java-format.html" hx-get="palantir-java-format.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Source Code Policy
+                        </div>
+                        <div class="project-name">
+                            Palantir Java Format
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin / CLI Tool
+                        </div>
+                    </div>
+                </a>
+                <a href="sortpom-maven-plugin.html" hx-get="sortpom-maven-plugin.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Source Code Policy
+                        </div>
+                        <div class="project-name">
+                            SortPOM Maven Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+                <a href="spotbugs-maven-plugin.html" hx-get="spotbugs-maven-plugin.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="project-card">
+                    <div class="project-card-content">
+                        <div class="project-category">
+                            Static Analysis
+                        </div>
+                        <div class="project-name">
+                            SpotBugs Maven Plugin
+                        </div>
+                        <div class="project-type">
+                            Maven Plugin
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="tag-cloud-section" id="tags-section">
+                <hr class="tag-separator">
+                <div class="tag-cloud">
+                    <a href="tag-source-structure.html" hx-get="tag-source-structure.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Source Structure
+                    </a>
+                    <a href="tag-build-reproducibility.html" hx-get="tag-build-reproducibility.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Build Reproducibility
+                    </a>
+                    <a href="tag-security-and-compliance.html" hx-get="tag-security-and-compliance.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Security and Compliance
+                    </a>
+                    <a href="tag-dependency-governance.html" hx-get="tag-dependency-governance.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Dependency Governance
+                    </a>
+                    <a href="tag-formatting.html" hx-get="tag-formatting.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Formatting
+                    </a>
+                    <a href="tag-coverage.html" hx-get="tag-coverage.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Coverage
+                    </a>
+                    <a href="tag-source-code-policy.html" hx-get="tag-source-code-policy.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Source Code Policy
+                    </a>
+                    <a href="tag-static-analysis.html" hx-get="tag-static-analysis.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag-cloud-item">
+                        Static Analysis
+                    </a>
+                </div>
+            </div>
+            <div class="about-section" id="about-section">
+                <hr class="about-separator">
+                <div class="about-content">
+                    <h2>
+                        About This Catalogue
+                    </h2>
+                    <p>
+                        Enterprise Java development depends on reliable, automated quality gates. Formatting, static analysis, test coverage, dependency governance, security scanning, and license checks should all run the same way for every developer, every AI agent, and every CI pipeline.
+                    </p>
+                    <p>
+                        This catalogue was inspired by the article &lt;a href=&quot;https://foojay.io/today/enterprise-java-quality-gates-ai/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Enterprise Java Quality Gates &amp;amp; AI&lt;/a&gt; on Foojay.io, which describes how deterministic tooling protects codebases as teams and AI agents grow.
+                    </p>
+                    <p>
+                        This is a 
+                        <strong>
+                            community-driven reference
+                        </strong>
+                        . If you know a Maven plugin that belongs here, contribute on GitHub!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    Built with 
+                    <a href="https://j2html.com/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <i class="bi bi-hammer">
+                        </i>
+                         j2html
+                    </a>
+                    , 
+                    <a href="https://htmx.org/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <i class="bi bi-lightning-charge">
+                        </i>
+                         htmx
+                    </a>
+                     &amp; 
+                    <a href="https://www.jbang.dev/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <i class="bi bi-terminal">
+                        </i>
+                         JBang
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

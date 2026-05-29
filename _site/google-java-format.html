@@ -1,0 +1,127 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            google-java-format - CI Ready Maven
+        </title>
+        <meta name="description" content="google-java-format - Source Code Policy. Maven Plugin / CLI Tool. Categories: Source Code Policy, Formatting.">
+        <meta name="keywords" content="Source Code Policy, Formatting">
+        <meta name="author" content="CI Ready Maven Community">
+        <meta name="robots" content="index, follow">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="google-java-format - CI Ready Maven">
+        <meta property="og:description" content="google-java-format - Source Code Policy. Maven Plugin / CLI Tool. Categories: Source Code Policy, Formatting.">
+        <meta property="og:image" content="https://teggr.github.io/ci-ready-maven/maven-logo.png">
+        <meta property="og:url" content="https://teggr.github.io/ci-ready-maven/google-java-format.html">
+        <meta property="og:site_name" content="CI Ready Maven">
+        <meta property="og:locale" content="en_US">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="google-java-format - CI Ready Maven">
+        <meta name="twitter:description" content="google-java-format - Source Code Policy. Maven Plugin / CLI Tool. Categories: Source Code Policy, Formatting.">
+        <meta name="twitter:image" content="https://teggr.github.io/ci-ready-maven/maven-logo.png">
+        <link rel="canonical" href="https://teggr.github.io/ci-ready-maven/google-java-format.html">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&amp;display=swap">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <script src="https://unpkg.com/htmx.org@2.0.4">
+        </script>
+    </head>
+    <body>
+        <div id="main-content">
+            <div>
+                <a href="index.html" onclick="history.back(); return false;" class="back-link">
+                    ← Back
+                </a>
+            </div>
+            <h1>
+                google-java-format
+            </h1>
+            <div class="project-meta">
+                <p>
+                    <strong>
+                        Category
+                    </strong>
+                    Source Code Policy
+                </p>
+                <p>
+                    <strong>
+                        Type
+                    </strong>
+                    Maven Plugin / CLI Tool
+                </p>
+                <p>
+                    <strong>
+                        Maven Coordinates
+                    </strong>
+                    <code>
+                        com.spotify.fmt:fmt-maven-plugin
+                    </code>
+                </p>
+                <p>
+                    <strong>
+                        Latest Release
+                    </strong>
+                    2.27
+                </p>
+            </div>
+            <a href="https://github.com/google/google-java-format" target="_blank">
+                google-java-format on GitHub
+                <i class="bi bi-box-arrow-up-right">
+                </i>
+            </a>
+            <div class="tags">
+                <a href="tag-source-code-policy.html" hx-get="tag-source-code-policy.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag">
+                    Source Code Policy
+                </a>
+                <a href="tag-formatting.html" hx-get="tag-formatting.html" hx-target="body" hx-swap="innerHTML transition:true show:window:top" hx-push-url="true" class="tag">
+                    Formatting
+                </a>
+            </div>
+            <p>google-java-format is an opinionated code formatter for Java developed by Google. It reformats Java source code to comply with the Google Java Style Guide, eliminating all formatting debates by making the output completely deterministic. When integrated via the <code>
+            fmt-maven-plugin</code>, it can either reformat code automatically in fix mode or verify that code is already correctly formatted in check mode (suitable for CI). The formatter handles imports, blank lines, indentation, line wrapping, and overall layout. Because the format is completely reproducible, pull request diffs contain only behavior changes, not formatting noise.</p>
+            <h2 id="code-example">Code Example</h2>
+            <pre><code class="language-xml">
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.spotify.fmt&lt;/groupId&gt;
+                &lt;artifactId&gt;fmt-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.27&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;goals&gt;
+                            &lt;!-- Use 'format' goal to auto-fix, 'check' goal for CI --&gt;
+                            &lt;goal&gt;check&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+            </code></pre>
+        </div>
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    Built with 
+                    <a href="https://j2html.com/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <i class="bi bi-hammer">
+                        </i>
+                         j2html
+                    </a>
+                    , 
+                    <a href="https://htmx.org/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <i class="bi bi-lightning-charge">
+                        </i>
+                         htmx
+                    </a>
+                     &amp; 
+                    <a href="https://www.jbang.dev/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <i class="bi bi-terminal">
+                        </i>
+                         JBang
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
