@@ -73,21 +73,45 @@ The body of each Markdown file must include:
 
 ## Build Process
 
-The static site is generated with JBang:
+Use Electrostatic CLI via JBang for local build and preview:
 
 ```bash
-jbang run build.java
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.1 build
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.1 serve --base-url=http://localhost:8080
 ```
 
-This reads all `*.md` files in the root (except `README.md`), parses their YAML front matter and Markdown body, then writes individual tool pages, grid partials, tag pages, and `index.html` into `_site/`. Run this command after every change to regenerate the site.
+The build writes output to `generated-site/`. Note that `serve` runs a build again before starting the server.
+
+After `serve` starts, run these once in a second terminal to ensure the custom stylesheet is loaded after the theme stylesheet:
+
+```powershell
+Copy-Item "_static/css/styles-ext.css" "generated-site/css/styles-ext.css" -Force
+
+$linkStyle = '<link rel="stylesheet" href="/css/style.css">'
+$linkExt = '<link rel="stylesheet" href="/css/styles-ext.css">'
+Get-ChildItem "generated-site" -Recurse -Filter *.html | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    if ($content -notmatch [regex]::Escape($linkExt)) {
+        $updated = $content.Replace($linkStyle, "$linkStyle`r`n$linkExt")
+        Set-Content -Path $_.FullName -Value $updated -NoNewline
+    }
+}
+```
+
+### Local Preview Rules
+
+- Do not use Python HTTP servers for local preview.
+- Always use the JBang Electrostatic `serve` command on port `8080`.
+- Keep a single custom stylesheet at `_static/css/styles-ext.css`.
+- After starting `serve`, run the one-time PowerShell sync commands in a second terminal.
 
 The site is deployed automatically via GitHub Actions on every push to `main`.
 
 ## UI Architecture
 
-- **`build.java`** – sole build script; uses [j2html](https://j2html.com/) for HTML generation, [CommonMark](https://github.com/commonmark/commonmark-java) for Markdown parsing, and [htmx](https://htmx.org/) for partial-page swaps.
-- **`css/styles.css`** – single stylesheet; uses CSS custom properties (`--color-*`, `--spacing-*`, `--radius-*`).
-- **`_site/`** – generated output; do not edit files here directly.
+- **`site-config.xml`** – Electrostatic docs-theme configuration.
+- **`_static/css/styles-ext.css`** – single custom stylesheet for Electrostatic pages.
+- **`generated-site/`** – generated output; do not edit files here directly.
 
 ### Key CSS Classes for Tags
 
