@@ -1,4 +1,8 @@
 ---
+title: Maven Enforcer Plugin
+description: Enforce Maven/JDK and dependency policy constraints in CI.
+order: 1
+slug: maven-enforcer-plugin
 name: Maven Enforcer Plugin
 category: Dependency Governance
 type: Maven Plugin
@@ -7,8 +11,8 @@ lastRelease: "3.5.0"
 learnMoreText: Maven Enforcer Plugin Documentation
 learnMoreHref: https://maven.apache.org/enforcer/maven-enforcer-plugin/
 tags:
-    - Dependency Governance
-    - Build Reproducibility
+  - Dependency Governance
+  - Build Reproducibility
 dateAdded: 2026-05-29
 ---
 

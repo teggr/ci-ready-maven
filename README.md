@@ -45,6 +45,24 @@ jbang run build.java
 
 The site is then served from the `_site` folder via GitHub Pages. GitHub Actions automatically builds and deploys the site on every push to `main`.
 
+
+## Electrostatic Migration Spike
+
+A migration spike for the Electrostatic docs theme now lives in `electrostatic/`.
+
+It includes:
+
+- docs-theme `site-config.xml`
+- sample migrated plugin pages in `_plugins/`
+- a migration guide page in `_guides/`
+- static CSS overrides in `_static/css/`
+
+Feature mapping and framework gaps are tracked in `electrostatic-migration.md`.
+
+### Current blocker
+
+The Electrostatic Maven plugin version documented upstream (`site.electrostatic:electrostatic-maven-plugin:0.0.1-SNAPSHOT`) is not currently resolvable from Maven repositories in this environment, so CI cannot switch to Electrostatic build commands yet.
+
 ## Contributing
 
 To add a new Maven tool, create a new Markdown file in the root of the repository following the pattern of the existing files. Open a pull request and the site will be rebuilt automatically.

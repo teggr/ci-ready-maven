@@ -1,4 +1,8 @@
 ---
+title: SpotBugs Maven Plugin
+description: Bytecode static analysis with fail-on-error quality gates.
+order: 2
+slug: spotbugs-maven-plugin
 name: SpotBugs Maven Plugin
 category: Static Analysis
 type: Maven Plugin
@@ -7,7 +11,7 @@ lastRelease: "4.9.3.0"
 learnMoreText: SpotBugs Maven Plugin Documentation
 learnMoreHref: https://spotbugs.github.io/spotbugs-maven-plugin/
 tags:
-    - Static Analysis
+  - Static Analysis
 dateAdded: 2026-05-29
 ---
 

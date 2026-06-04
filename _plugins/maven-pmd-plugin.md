@@ -1,4 +1,8 @@
 ---
+title: PMD Maven Plugin
+description: Source-level static analysis and copy-paste detection for CI gates.
+order: 6
+slug: maven-pmd-plugin
 name: PMD Maven Plugin
 category: Static Analysis
 type: Maven Plugin
@@ -7,7 +11,7 @@ lastRelease: "3.26.0"
 learnMoreText: PMD Maven Plugin Documentation
 learnMoreHref: https://maven.apache.org/plugins/maven-pmd-plugin/
 tags:
-    - Static Analysis
+  - Static Analysis
 dateAdded: 2026-05-29
 ---
 

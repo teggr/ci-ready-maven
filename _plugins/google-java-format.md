@@ -1,4 +1,8 @@
 ---
+title: google-java-format
+description: Enforce Google Java Style Guide formatting in CI with zero configuration.
+order: 7
+slug: google-java-format
 name: google-java-format
 category: Source Code Policy
 type: Maven Plugin / CLI Tool
@@ -7,8 +11,8 @@ lastRelease: "2.27"
 learnMoreText: google-java-format on GitHub
 learnMoreHref: https://github.com/google/google-java-format
 tags:
-    - Source Code Policy
-    - Formatting
+  - Source Code Policy
+  - Formatting
 dateAdded: 2026-05-29
 ---
 
