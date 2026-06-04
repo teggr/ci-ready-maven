@@ -1,4 +1,8 @@
 ---
+title: JaCoCo Maven Plugin
+description: Measure and enforce test coverage thresholds in CI builds.
+order: 4
+slug: jacoco-maven-plugin
 name: JaCoCo Maven Plugin
 category: Coverage
 type: Maven Plugin
@@ -7,7 +11,7 @@ lastRelease: "0.8.13"
 learnMoreText: JaCoCo Maven Plugin Documentation
 learnMoreHref: https://www.jacoco.org/jacoco/trunk/doc/maven.html
 tags:
-    - Coverage
+  - Coverage
 dateAdded: 2026-05-29
 ---
 

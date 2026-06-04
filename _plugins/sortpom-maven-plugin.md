@@ -1,4 +1,8 @@
 ---
+title: SortPOM Maven Plugin
+description: Keep pom.xml in canonical order to eliminate noisy diffs in CI.
+order: 10
+slug: sortpom-maven-plugin
 name: SortPOM Maven Plugin
 category: Source Code Policy
 type: Maven Plugin
@@ -7,8 +11,8 @@ lastRelease: "4.0.0"
 learnMoreText: SortPOM Maven Plugin on GitHub
 learnMoreHref: https://github.com/Ekryd/sortpom
 tags:
-    - Source Code Policy
-    - Formatting
+  - Source Code Policy
+  - Formatting
 dateAdded: 2026-05-29
 ---
 

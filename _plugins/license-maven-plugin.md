@@ -1,4 +1,8 @@
 ---
+title: License Maven Plugin
+description: Enforce license headers on every source file in CI.
+order: 5
+slug: license-maven-plugin
 name: License Maven Plugin
 category: Security and Compliance
 type: Maven Plugin
@@ -7,7 +11,7 @@ lastRelease: "4.6"
 learnMoreText: License Maven Plugin on GitHub
 learnMoreHref: https://github.com/mycila/license-maven-plugin
 tags:
-    - Security and Compliance
+  - Security and Compliance
 dateAdded: 2026-05-29
 ---
 

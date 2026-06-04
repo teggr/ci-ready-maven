@@ -1,4 +1,8 @@
 ---
+title: Palantir Java Format
+description: Deterministic Java formatting with Palantir style conventions for CI.
+order: 9
+slug: palantir-java-format
 name: Palantir Java Format
 category: Source Code Policy
 type: Maven Plugin / CLI Tool
@@ -7,8 +11,8 @@ lastRelease: "2.50.0"
 learnMoreText: palantir-java-format on GitHub
 learnMoreHref: https://github.com/palantir/palantir-java-format
 tags:
-    - Source Code Policy
-    - Formatting
+  - Source Code Policy
+  - Formatting
 dateAdded: 2026-05-29
 ---
 

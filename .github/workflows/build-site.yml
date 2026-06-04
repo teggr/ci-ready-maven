@@ -42,11 +42,13 @@ jobs:
 
       - name: Build site with JBang
         run: |
-          jbang run build.java
+          jbang --fresh site.electrostatic:electrostatic-cli:0.0.1 build
 
       - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
+        # Automatically uploads an artifact from the './generated-site' directory
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: './generated-site'
 
   # Deployment job
   deploy:

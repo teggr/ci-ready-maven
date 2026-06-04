@@ -1,4 +1,8 @@
 ---
+title: Spotless Maven Plugin
+description: Multi-formatter source style enforcement across Java and polyglot projects.
+order: 11
+slug: spotless-maven-plugin
 name: Spotless Maven Plugin
 category: Source Code Policy
 type: Maven Plugin
@@ -7,8 +11,8 @@ lastRelease: "2.44.5"
 learnMoreText: Spotless Maven Plugin on GitHub
 learnMoreHref: https://github.com/diffplug/spotless/tree/main/plugin-maven
 tags:
-    - Source Code Policy
-    - Formatting
+  - Source Code Policy
+  - Formatting
 dateAdded: 2026-05-29
 ---
 

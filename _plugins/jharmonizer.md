@@ -1,4 +1,8 @@
 ---
+title: JHarmonizer
+description: Enforce reproducible class member ordering in CI as a structural policy gate.
+order: 8
+slug: jharmonizer
 name: JHarmonizer
 category: Source Code Policy
 type: Maven Plugin / CLI Tool
@@ -7,8 +11,8 @@ lastRelease: "0.1.0"
 learnMoreText: JHarmonizer on GitHub
 learnMoreHref: https://github.com/lemon-ant/JHarmonizer
 tags:
-    - Source Code Policy
-    - Source Structure
+  - Source Code Policy
+  - Source Structure
 dateAdded: 2026-05-29
 ---
 
