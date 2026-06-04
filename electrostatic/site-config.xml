@@ -1,0 +1,11 @@
+<site>
+  <title>CI Ready Maven</title>
+  <baseUrl>https://teggr.github.io/ci-ready-maven/</baseUrl>
+  <theme>docs</theme>
+  <description>A catalogue of Maven plugins and utilities for enterprise CI quality gates.</description>
+  <author>
+    <name>CI Ready Maven Community</name>
+  </author>
+  <docsSections>guides,plugins</docsSections>
+  <docsSectionLabels>guides=Guides,plugins=Plugins</docsSectionLabels>
+</site>
