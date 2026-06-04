@@ -40,13 +40,13 @@ The body of each file is a description followed by a `## Code Example` section w
 The site is generated with [Electrostatic](https://electrostatic.github.io/) via JBang. Content is sourced from section folders (`_guides/` and `_plugins/`) and rendered to `generated-site/`.
 
 ```bash
-jbang --fresh site.electrostatic:electrostatic-cli:0.0.2 build
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 build
 ```
 
 For local preview:
 
 ```bash
-jbang --fresh site.electrostatic:electrostatic-cli:0.0.2 serve --base-url=http://localhost:8080
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 serve --base-url=http://localhost:8080
 ```
 
 GitHub Actions builds and deploys `generated-site/` to GitHub Pages on every push to `main`.

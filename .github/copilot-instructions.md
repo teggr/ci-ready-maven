@@ -76,8 +76,8 @@ The body of each Markdown file must include:
 Use Electrostatic CLI via JBang for local build and preview:
 
 ```bash
-jbang --fresh site.electrostatic:electrostatic-cli:0.0.2 build
-jbang --fresh site.electrostatic:electrostatic-cli:0.0.2 serve --base-url=http://localhost:8080
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 build
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 serve --base-url=http://localhost:8080
 ```
 
 The build writes output to `generated-site/`. Note that `serve` runs a build again before starting the server.
