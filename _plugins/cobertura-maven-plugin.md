@@ -5,7 +5,7 @@ order: 12
 slug: cobertura-maven-plugin
 name: Cobertura Maven Plugin
 category: Coverage
-type: Maven Plugin (MojoHaus)
+type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:cobertura-maven-plugin
 lastRelease: "2.7"
 learnMoreText: Cobertura Maven Plugin Documentation
@@ -16,7 +16,7 @@ tags:
 dateAdded: 2026-06-06
 ---
 
-The Cobertura Maven Plugin instruments Java classes to measure line and branch coverage and generates HTML and XML reports for CI visibility. It remains present in some older CI pipelines, but Cobertura is no longer actively maintained and does not handle newer Java language features such as lambdas and streams reliably. For modern builds, JaCoCo (`org.jacoco:jacoco-maven-plugin`) is the recommended replacement.
+The MojoHaus Cobertura Maven Plugin instruments Java classes to measure line and branch coverage and generates HTML and XML reports for CI visibility. It remains present in some older CI pipelines, but Cobertura is no longer actively maintained and does not handle newer Java language features such as lambdas and streams reliably. For modern builds, JaCoCo (`org.jacoco:jacoco-maven-plugin`) is the recommended replacement.
 
 ## Code Example
 
