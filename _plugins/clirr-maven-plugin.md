@@ -4,17 +4,14 @@ description: Detect binary and source compatibility breaks between releases.
 order: 12
 slug: clirr-maven-plugin
 name: Clirr Maven Plugin
-category: Quality
+category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:clirr-maven-plugin
 lastRelease: "2.8"
 learnMoreText: Clirr Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/clirr-maven-plugin/
 tags:
-  - Quality
-  - API Compatibility
-  - Semantic Versioning
-  - Library Development
+  - Static Analysis
 dateAdded: 2026-06-06
 ---
 
