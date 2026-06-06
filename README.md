@@ -27,6 +27,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | SpotBugs Maven Plugin | Static Analysis |
 | PMD Maven Plugin | Static Analysis |
 | JaCoCo Maven Plugin | Coverage |
+| Maven Changelog Plugin | Git / Reporting |
 | google-java-format | Source Code Policy / Formatting |
 | Palantir Java Format | Source Code Policy / Formatting |
 | Spotless Maven Plugin | Source Code Policy / Formatting |
