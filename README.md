@@ -34,7 +34,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | JHarmonizer | Source Code Policy / Source Structure |
 | License Maven Plugin | Security and Compliance |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
-| Clirr Maven Plugin | Static Analysis / API Compatibility |
+| Clirr Maven Plugin | Static Analysis |
 
 ## Building the Site
 
