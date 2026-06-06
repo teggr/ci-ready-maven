@@ -33,6 +33,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | SortPOM Maven Plugin | Source Code Policy / Formatting |
 | JHarmonizer | Source Code Policy / Source Structure |
 | License Maven Plugin | Security and Compliance |
+| Maven JarSigner Plugin | Security and Compliance / CI |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
 
 ## Building the Site
