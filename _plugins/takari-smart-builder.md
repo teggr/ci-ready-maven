@@ -4,17 +4,15 @@ description: Dependency-critical-path-aware Maven module scheduling for faster p
 order: 12
 slug: takari-smart-builder
 name: Takari Smart Builder
-category: CI Extensions
+category: Dependency Governance
 type: Maven Extension (Takari)
-mavenCoordinates: io.takari.maven.plugins:takari-smart-builder
+mavenCoordinates: io.takari.maven:takari-smart-builder
 lastRelease: "1.1.0"
 learnMoreText: Takari Smart Builder on GitHub
 learnMoreHref: https://github.com/takari/takari-smart-builder
 tags:
-  - CI
-  - Build Speed
-  - Parallel Build
-  - Maven Extension
+  - Dependency Governance
+  - Build Reproducibility
 dateAdded: 2026-06-06
 ---
 
@@ -38,5 +36,5 @@ Create `.mvn/extensions.xml`:
 Run Maven with Smart Builder and one thread per core:
 
 ```bash
-mvn -b smart -T 1C verify
+mvn --builder smart -T 1C verify
 ```
