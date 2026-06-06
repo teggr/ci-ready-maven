@@ -4,18 +4,15 @@ description: Automate semantic versioning and changelog generation from Conventi
 order: 12
 slug: maven-semantic-gitlog
 name: Maven Semantic Gitlog Plugin
-category: Git / CI
+category: Dependency Governance
 type: Maven Plugin
 mavenCoordinates: team.yi.maven.plugin:maven-semantic-gitlog
 lastRelease: "0.22.27"
 learnMoreText: maven-semantic-gitlog on GitHub
 learnMoreHref: https://github.com/semantic-gitlog/maven-semantic-gitlog
 tags:
-  - Git
-  - Changelog
-  - Semantic Versioning
-  - Conventional Commits
-  - CI
+  - Dependency Governance
+  - Build Reproducibility
 dateAdded: 2026-06-06
 ---
 
