@@ -4,17 +4,14 @@ description: Measure NCSS and cyclomatic complexity as part of Maven site report
 order: 12
 slug: javancss-maven-plugin
 name: JavaNCSS Maven Plugin
-category: Quality / Static Analysis
+category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:javancss-maven-plugin
 lastRelease: "2.1"
 learnMoreText: JavaNCSS Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/javancss-maven-plugin/
 tags:
-  - Quality
-  - Complexity Metrics
-  - Code Metrics
-  - Reporting
+  - Static Analysis
 dateAdded: 2026-06-06
 ---
 
