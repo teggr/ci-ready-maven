@@ -34,6 +34,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | JHarmonizer | Source Code Policy / Source Structure |
 | License Maven Plugin | Security and Compliance |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
+| Maven Build Cache Extension | CI Extensions / Maven Extensions for Build Time |
 
 ## Building the Site
 
