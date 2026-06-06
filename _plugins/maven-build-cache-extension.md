@@ -4,7 +4,7 @@ description: Speed up CI with incremental Maven builds and local/remote cache re
 order: 12
 slug: maven-build-cache-extension
 name: Maven Build Cache Extension
-category: CI Extensions
+category: CI Extensions / Maven Extensions for Build Time
 type: Maven Extension (Apache)
 mavenCoordinates: org.apache.maven.extensions:maven-build-cache-extension
 lastRelease: "1.2.3"
