@@ -26,15 +26,31 @@ The body of each file is a description followed by a `## Code Example` section w
 | Maven Enforcer Plugin | Dependency Governance / Build Reproducibility |
 | SpotBugs Maven Plugin | Static Analysis |
 | PMD Maven Plugin | Static Analysis |
+| Animal Sniffer Maven Plugin | Static Analysis |
+| JavaNCSS Maven Plugin | Static Analysis |
 | JaCoCo Maven Plugin | Coverage |
+| Maven Changelog Plugin | Git / Reporting |
+| Cobertura Maven Plugin | Coverage (Legacy) |
 | google-java-format | Source Code Policy / Formatting |
 | Palantir Java Format | Source Code Policy / Formatting |
 | Spotless Maven Plugin | Source Code Policy / Formatting |
 | SortPOM Maven Plugin | Source Code Policy / Formatting |
+| Tidy Maven Plugin | Source Code Policy / Formatting |
 | JHarmonizer | Source Code Policy / Source Structure |
 | License Maven Plugin | Security and Compliance |
+| Maven JarSigner Plugin | Security and Compliance / CI |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
 | git-commit-id-maven-plugin | Git / CI |
+| Maven Semantic Gitlog Plugin | Dependency Governance / Build Reproducibility |
+| Fabric8 Docker Maven Plugin | Docker / Integration Testing |
+| Jib Maven Plugin | Docker / Container / OCI / CI Build |
+| Spring Boot Maven Plugin | Docker / Build |
+| Spotify dockerfile-maven-plugin | Docker |
+| Clirr Maven Plugin | Static Analysis |
+| TagList Maven Plugin | Quality / Reporting |
+| Develocity Maven Extension | CI Extensions / Maven Extensions for Build Time |
+| Maven Build Cache Extension | CI Extensions / Maven Extensions for Build Time |
+| Takari Smart Builder | Dependency Governance / Build Reproducibility |
 
 ## Building the Site
 
