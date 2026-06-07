@@ -35,6 +35,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | License Maven Plugin | Security and Compliance |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
 | Maven Build Cache Extension | CI Extensions / Maven Extensions for Build Time |
+| Takari Smart Builder | Dependency Governance / Build Reproducibility |
 
 ## Building the Site
 
