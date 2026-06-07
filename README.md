@@ -26,6 +26,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | Maven Enforcer Plugin | Dependency Governance / Build Reproducibility |
 | SpotBugs Maven Plugin | Static Analysis |
 | PMD Maven Plugin | Static Analysis |
+| JavaNCSS Maven Plugin | Static Analysis |
 | JaCoCo Maven Plugin | Coverage |
 | google-java-format | Source Code Policy / Formatting |
 | Palantir Java Format | Source Code Policy / Formatting |
