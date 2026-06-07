@@ -40,6 +40,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | License Maven Plugin | Security and Compliance |
 | Maven JarSigner Plugin | Security and Compliance / CI |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
+| git-commit-id-maven-plugin | Git / CI |
 | Maven Semantic Gitlog Plugin | Dependency Governance / Build Reproducibility |
 | Fabric8 Docker Maven Plugin | Docker / Integration Testing |
 | Jib Maven Plugin | Docker / Container / OCI / CI Build |
