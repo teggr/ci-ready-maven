@@ -33,6 +33,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | Palantir Java Format | Source Code Policy / Formatting |
 | Spotless Maven Plugin | Source Code Policy / Formatting |
 | SortPOM Maven Plugin | Source Code Policy / Formatting |
+| Tidy Maven Plugin | Source Code Policy / Formatting |
 | JHarmonizer | Source Code Policy / Source Structure |
 | License Maven Plugin | Security and Compliance |
 | Maven JarSigner Plugin | Security and Compliance / CI |
