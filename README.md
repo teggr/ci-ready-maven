@@ -29,6 +29,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | Animal Sniffer Maven Plugin | Static Analysis |
 | JavaNCSS Maven Plugin | Static Analysis |
 | JaCoCo Maven Plugin | Coverage |
+| Cobertura Maven Plugin | Coverage (Legacy) |
 | google-java-format | Source Code Policy / Formatting |
 | Palantir Java Format | Source Code Policy / Formatting |
 | Spotless Maven Plugin | Source Code Policy / Formatting |
