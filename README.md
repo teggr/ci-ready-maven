@@ -39,6 +39,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | License Maven Plugin | Security and Compliance |
 | Maven JarSigner Plugin | Security and Compliance / CI |
 | OWASP Dependency-Check | Security and Compliance / Dependency Governance |
+| Spring Boot Maven Plugin | Docker / Build |
 | Spotify dockerfile-maven-plugin | Docker |
 | Clirr Maven Plugin | Static Analysis |
 | TagList Maven Plugin | Quality / Reporting |
