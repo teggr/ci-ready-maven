@@ -23,10 +23,10 @@ Polyglot Maven is a set of Takari Maven extensions that lets teams author Maven 
 ```xml
 <!-- .mvn/extensions.xml -->
 <extensions>
-    <!-- Select the dialect artifact matching your pom.* file (for example: polyglot-kotlin, polyglot-yaml) -->
+    <!-- Select the dialect artifact matching your pom.* file (for example: polyglot-groovy, polyglot-yaml) -->
     <extension>
         <groupId>io.takari.polyglot</groupId>
-        <artifactId>polyglot-groovy</artifactId>
+        <artifactId>polyglot-kotlin</artifactId>
         <version>0.8.0</version>
     </extension>
 </extensions>
