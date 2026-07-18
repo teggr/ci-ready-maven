@@ -51,6 +51,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | TagList Maven Plugin | Quality / Reporting |
 | Develocity Maven Extension | CI Extensions / Maven Extensions for Build Time |
 | Maven Build Cache Extension | CI Extensions / Maven Extensions for Build Time |
+| Maven Timeline | CI Extensions / Maven Extensions for Build Time |
 | Takari Smart Builder | Dependency Governance / Build Reproducibility |
 
 ## Building the Site
