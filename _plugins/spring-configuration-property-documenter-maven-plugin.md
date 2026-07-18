@@ -1,17 +1,18 @@
 ---
 title: Spring Configuration Property Documenter Maven Plugin
-description: Generate Spring configuration property reference docs from build metadata.
+description: Keep Spring configuration reference docs aligned with source metadata in CI.
 order: 12
 slug: spring-configuration-property-documenter-maven-plugin
 name: Spring Configuration Property Documenter Maven Plugin
-category: Static Analysis
+category: Source Code Policy
 type: Maven Plugin
 mavenCoordinates: org.rodnansol:spring-configuration-property-documenter-maven-plugin
 lastRelease: "0.7.2"
 learnMoreText: Spring Configuration Property Documenter Documentation
 learnMoreHref: https://github.com/rodnansol/spring-configuration-property-documenter/blob/master/docs/modules/ROOT/pages/index.adoc
 tags:
-  - Static Analysis
+  - Source Code Policy
+  - Source Structure
 dateAdded: 2026-07-18
 ---
 
