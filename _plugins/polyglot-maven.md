@@ -4,19 +4,15 @@ description: Use non-XML POM dialects while keeping standard Maven CI behavior.
 order: 12
 slug: polyglot-maven
 name: Polyglot Maven
-category: CI Extensions / Build
-type: Maven Extension (Takari)
+category: Dependency Governance
+type: Maven Plugin
 mavenCoordinates: io.takari.polyglot:polyglot-<dialect>
 lastRelease: "0.8.0"
 learnMoreText: Polyglot Maven on GitHub
 learnMoreHref: https://github.com/takari/polyglot-maven
 tags:
-  - Build
-  - Maven Extension
-  - POM
-  - DSL
-  - Groovy
-  - Kotlin
+  - Dependency Governance
+  - Build Reproducibility
 dateAdded: 2026-07-18
 ---
 
