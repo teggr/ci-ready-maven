@@ -6,7 +6,7 @@ slug: polyglot-maven
 name: Polyglot Maven
 category: Dependency Governance
 type: Maven Plugin
-mavenCoordinates: io.takari.polyglot:polyglot-<dialect>
+mavenCoordinates: io.takari.polyglot:polyglot-kotlin
 lastRelease: "0.8.0"
 learnMoreText: Polyglot Maven on GitHub
 learnMoreHref: https://github.com/takari/polyglot-maven
