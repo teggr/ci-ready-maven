@@ -53,6 +53,7 @@ The body of each file is a description followed by a `## Code Example` section w
 | Maven Build Cache Extension | CI Extensions / Maven Extensions for Build Time |
 | Maven Timeline | CI Extensions / Maven Extensions for Build Time |
 | Takari Smart Builder | Dependency Governance / Build Reproducibility |
+| Polyglot Maven | Dependency Governance / Build Reproducibility |
 
 ## Building the Site
 
