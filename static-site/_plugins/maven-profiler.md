@@ -7,7 +7,7 @@ name: Maven Profiler
 category: CI Extensions / Maven Extensions for Build Time
 type: Maven Extension (jcgay)
 mavenCoordinates: fr.jcgay.maven:maven-profiler
-lastRelease: "3.2"
+lastRelease: "3.3"
 learnMoreText: Maven Profiler on GitHub
 learnMoreHref: https://github.com/jcgay/maven-profiler
 tags:

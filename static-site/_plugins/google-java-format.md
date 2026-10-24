@@ -7,7 +7,7 @@ name: google-java-format
 category: Source Code Policy
 type: Maven Plugin / CLI Tool
 mavenCoordinates: com.spotify.fmt:fmt-maven-plugin
-lastRelease: "2.27"
+lastRelease: "2.29"
 learnMoreText: google-java-format on GitHub
 learnMoreHref: https://github.com/google/google-java-format
 tags:

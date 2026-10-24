@@ -7,7 +7,7 @@ name: JFR Maven Extension
 category: CI Extensions / Maven Extensions for Build Time
 type: Maven Extension
 mavenCoordinates: com.github.marschall:jfr-maven-extension
-lastRelease: "0.1.1"
+lastRelease: "0.2.0"
 learnMoreText: JFR Maven Extension on GitHub
 learnMoreHref: https://github.com/marschall/jfr-maven-extension
 tags:

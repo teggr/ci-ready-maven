@@ -7,7 +7,7 @@ name: Fabric8 Docker Maven Plugin
 category: Docker
 type: Maven Plugin (Fabric8)
 mavenCoordinates: io.fabric8:docker-maven-plugin
-lastRelease: "0.48.1"
+lastRelease: "0.49.0"
 learnMoreText: Fabric8 Docker Maven Plugin Documentation
 learnMoreHref: https://dmp.fabric8.io/
 tags:

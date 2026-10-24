@@ -7,7 +7,7 @@ name: Clirr Maven Plugin
 category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:clirr-maven-plugin
-lastRelease: "2.8"
+lastRelease: "2.9"
 learnMoreText: Clirr Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/clirr-maven-plugin/
 tags:

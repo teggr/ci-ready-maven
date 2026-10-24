@@ -7,7 +7,7 @@ name: OWASP Dependency-Check
 category: Security and Compliance
 type: Maven Plugin
 mavenCoordinates: org.owasp:dependency-check-maven
-lastRelease: "12.1.0"
+lastRelease: "13.0.0"
 learnMoreText: OWASP Dependency-Check Documentation
 learnMoreHref: https://dependency-check.github.io/DependencyCheck/dependency-check-maven/
 tags:

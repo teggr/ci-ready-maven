@@ -7,7 +7,7 @@ name: License Maven Plugin
 category: Security and Compliance
 type: Maven Plugin
 mavenCoordinates: com.mycila:license-maven-plugin
-lastRelease: "4.6"
+lastRelease: "5.1.2"
 learnMoreText: License Maven Plugin on GitHub
 learnMoreHref: https://github.com/mycila/license-maven-plugin
 tags:

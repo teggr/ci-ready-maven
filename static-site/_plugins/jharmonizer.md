@@ -6,8 +6,8 @@ slug: jharmonizer
 name: JHarmonizer
 category: Source Code Policy
 type: Maven Plugin / CLI Tool
-mavenCoordinates: io.github.lemon-ant:jharmonizer-maven-plugin
-lastRelease: "0.1.0"
+mavenCoordinates: io.github.lemon-ant.jharmonizer:jharmonizer-maven-plugin
+lastRelease: "1.0.1"
 learnMoreText: JHarmonizer on GitHub
 learnMoreHref: https://github.com/lemon-ant/JHarmonizer
 tags:
@@ -22,9 +22,9 @@ JHarmonizer is an open-source Java source harmonization tool that makes Java cla
 
 ```xml
 <plugin>
-    <groupId>io.github.lemon-ant</groupId>
+    <groupId>io.github.lemon-ant.jharmonizer</groupId>
     <artifactId>jharmonizer-maven-plugin</artifactId>
-    <version>0.1.0</version>
+    <version>1.0.1</version>
     <executions>
         <execution>
             <id>harmonize-check</id>

@@ -7,7 +7,7 @@ name: Palantir Java Format
 category: Source Code Policy
 type: Maven Plugin / CLI Tool
 mavenCoordinates: com.palantir.javaformat:palantir-java-format
-lastRelease: "2.50.0"
+lastRelease: "2.102.0"
 learnMoreText: palantir-java-format on GitHub
 learnMoreHref: https://github.com/palantir/palantir-java-format
 tags:

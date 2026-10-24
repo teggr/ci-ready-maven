@@ -7,7 +7,7 @@ name: PMD Maven Plugin
 category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: org.apache.maven.plugins:maven-pmd-plugin
-lastRelease: "3.26.0"
+lastRelease: "3.28.0"
 learnMoreText: PMD Maven Plugin Documentation
 learnMoreHref: https://maven.apache.org/plugins/maven-pmd-plugin/
 tags:

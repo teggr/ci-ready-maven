@@ -7,7 +7,7 @@ name: Spring Boot Maven Plugin
 category: Docker / Build
 type: Maven Plugin (Spring)
 mavenCoordinates: org.springframework.boot:spring-boot-maven-plugin
-lastRelease: "3.5.0"
+lastRelease: "4.1.2"
 learnMoreText: Spring Boot Maven Plugin Documentation
 learnMoreHref: https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#build-image
 tags:
