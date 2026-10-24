@@ -6,6 +6,21 @@ Live site: **https://teggr.github.io/ci-ready-maven/**
 
 ## What's In Here
 
+This is a Maven multi-module project. The root `pom.xml` is the parent and aggregator (`io.github.teggr:ci-ready-maven`). The `static-site/` module (`io.github.teggr:ci-ready-maven-static-site`) contains the existing site:
+
+```text
+pom.xml
+static-site/
+    pom.xml
+    site-config.xml
+    _index.md
+    _guides/
+    _plugins/
+    _static/
+```
+
+Future modules can be added alongside `static-site/` and registered in the root POM's `<modules>` list. Site generation is configured only in the static-site module, not inherited by siblings.
+
 Each tool is documented as a Markdown file with YAML front matter containing:
 
 - `name` – display name
@@ -22,7 +37,7 @@ The body of each file is a description followed by a `## Code Example` section w
 ## Tools Catalogued
 
 | Tool | Category |
-|------|----------|
+| --- | --- |
 | Maven Enforcer Plugin | Dependency Governance / Build Reproducibility |
 | SpotBugs Maven Plugin | Static Analysis |
 | PMD Maven Plugin | Static Analysis |
@@ -59,25 +74,27 @@ The body of each file is a description followed by a `## Code Example` section w
 
 ## Building the Site
 
-The site is generated with the [Electrostatic](https://github.com/teggr/electrostatic) Maven plugin (version `0.0.5`). Content is sourced from the root-level section folders (`_guides/` and `_plugins/`) and rendered to `target/generated-site/`.
+The site is generated with the [Electrostatic](https://github.com/teggr/electrostatic) Maven plugin (version `0.0.5`), bound to the static-site module's `generate-resources` phase. Content is sourced from `static-site/_guides/` and `static-site/_plugins/` and rendered to `static-site/target/generated-site/`.
+
+Build all modules from the repository root:
 
 ```bash
-mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5:generate
+mvn -B -ntp clean verify
 ```
 
-For local preview:
+To generate only the site, run `mvn -B -ntp -pl static-site generate-resources`. For local preview, also run from the repository root:
 
 ```bash
-mvn io.github.teggr:electrostatic-maven-plugin:0.0.5:serve -Delectrostatic.baseUrl=http://localhost:8080
+mvn -pl static-site io.github.teggr:electrostatic-maven-plugin:0.0.5:serve -Delectrostatic.baseUrl=http://localhost:8080 -Delectrostatic.watch=true
 ```
 
-The Maven configuration in `pom.xml` points Electrostatic at the repository root and writes output to `target/generated-site/`. GitHub Actions builds and deploys that directory to GitHub Pages on every push to `main`.
+The Maven configuration in `static-site/pom.xml` points Electrostatic at that module's directory and writes output to `static-site/target/generated-site/`. GitHub Actions runs the root reactor build and uploads only that generated directory to GitHub Pages on every push to `main` (or a manual workflow run). The published site remains at **https://teggr.github.io/ci-ready-maven/**; the module folder is not part of the public URL.
 
 
 ## Electrostatic
 
-The site uses Electrostatic's docs theme, configured in `site-config.xml`, with catalogue pages in `_plugins/`, guides in `_guides/`, and CSS overrides in `_static/`. The Maven plugin automatically includes local CSS overrides after the theme stylesheets.
+The site uses Electrostatic's docs theme, configured in `static-site/site-config.xml`, with catalogue pages in `static-site/_plugins/`, guides in `static-site/_guides/`, and CSS overrides in `static-site/_static/`. The Maven plugin automatically includes local CSS overrides after the theme stylesheets.
 
 ## Contributing
 
-To add a new Maven tool, create a new Markdown file in `_plugins/` following the pattern of the existing files. Open a pull request and the site will be rebuilt automatically.
+To add a new Maven tool, create a new Markdown file in `static-site/_plugins/` following the pattern of the existing files. Open a pull request; the site will be rebuilt and deployed once the change is merged into `main`.
