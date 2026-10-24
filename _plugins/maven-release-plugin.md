@@ -4,7 +4,7 @@ description: Automate tagged Maven releases and version updates.
 order: 12
 slug: maven-release-plugin
 name: Maven Release Plugin
-category: Git / CI
+category: CI
 type: Maven Plugin (Apache)
 mavenCoordinates: org.apache.maven.plugins:maven-release-plugin
 lastRelease: "3.3.1"
