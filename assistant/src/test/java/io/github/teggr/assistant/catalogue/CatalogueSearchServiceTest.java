@@ -67,6 +67,17 @@ class CatalogueSearchServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
+            "What are the Maven coordinates for JaCoCo?",
+            "What category/tags does JaCoCo have?",
+            "What version of JaCoCo is in the catalogue?",
+            "What type of tool is JaCoCo?",
+            "What is the recorded release of JaCoCo?"})
+    void legitimateNamedMetadataQueriesAreSufficient(String question) {
+        assertThat(search.sufficient(question, search.search(question, 4))).as(question).isTrue();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
                 "Which plugins can enforce Java code formatting?",
                 "How can I measure test coverage in Maven?",
                 "Compare the static-analysis plugins in this catalogue.",

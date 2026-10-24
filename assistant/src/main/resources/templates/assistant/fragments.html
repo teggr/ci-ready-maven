@@ -6,12 +6,23 @@
   <p role="status" th:text="${response.message}"></p>
   <section th:each="source : ${response.sources}" class="assistant-source">
     <h3><a th:href="${source.url}" th:text="${source.title}" target="_blank" rel="noopener noreferrer"></a></h3>
+    <p th:if="${!#strings.isEmpty(source.learnMoreHref)}"><a th:href="${source.learnMoreHref}" th:text="${source.learnMoreText}" target="_blank" rel="noopener noreferrer"></a></p>
+    <dl th:if="${!#maps.isEmpty(source.metadata)}">
+      <th:block th:each="detail : ${source.metadata}">
+        <dt th:text="${detail.key}"></dt><dd th:text="${detail.value}"></dd>
+      </th:block>
+    </dl>
     <blockquote th:each="quote : ${source.quotes}" th:text="${quote}"></blockquote>
     <div th:if="${!#lists.isEmpty(source.examples)}">
       <p>Existing catalogue configuration (not generated):</p>
       <pre th:each="example : ${source.examples}"><code th:text="${example}"></code></pre>
     </div>
   </section>
+  <footer th:if="${!#strings.isEmpty(response.sourceCommit)}" class="assistant-provenance">
+    <p>Catalogue snapshot, not a live release check. Release metadata may be stale.</p>
+    <p>Source commit: <code th:text="${response.sourceCommit}"></code></p>
+    <p>Content SHA-256: <code th:text="${response.contentSha256}"></code></p>
+  </footer>
 </article>
 </body>
 </html>

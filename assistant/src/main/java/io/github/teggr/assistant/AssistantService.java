@@ -1,19 +1,19 @@
 package io.github.teggr.assistant;
 
 import io.github.teggr.assistant.catalogue.CatalogueRecord;
+import io.github.teggr.assistant.catalogue.CatalogueRepository;
 import io.github.teggr.assistant.catalogue.CatalogueSearchService;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Pattern;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.template.NoOpTemplateRenderer;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
@@ -34,29 +34,59 @@ public class AssistantService {
             If evidence is insufficient return {"selections":[]}. Do not use markdown fences.
             """;
     private static final Pattern CONFIGURATION = Pattern.compile("(?i)\\b(configur\\w*|example\\w*|snippet\\w*|pom|xml|setup|set up)\\b");
+    private static final Pattern METADATA = Pattern.compile("(?i)\\b(coordinates?|groupid|artifactid|versions?|releases?|categor(?:y|ies)|tags?|type|dateadded)\\b");
+    private static final Pattern LIVE_RELEASE = Pattern.compile("(?i)\\b(latest|current|live|newest|today|up.to.date)\\b");
+    private static final Pattern RELEASE_QUERY = Pattern.compile("(?i)\\b(versions?|releases?)\\b");
+    private static final Pattern VERSION_CAPABILITY = Pattern.compile("(?i)\\b(java|jdk|supports?|supported|compatib\\w*|requires?|minimum|maximum)\\b");
+    private static final Pattern COMPARISON = Pattern.compile("(?i)\\b(compare|comparison|versus|vs|difference|differences|better)\\b");
+    private static final Pattern COORDINATE_QUERY = Pattern.compile("(?i)\\b(coordinates?|groupid|artifactid)\\b");
+    private static final Pattern CATEGORY_QUERY = Pattern.compile("(?i)\\bcategor(?:y|ies)\\b");
+    private static final Pattern TAG_QUERY = Pattern.compile("(?i)\\btags?\\b");
+    private static final Pattern TYPE_QUERY = Pattern.compile("(?i)\\btype\\b");
+    private static final Pattern DATE_ADDED_QUERY = Pattern.compile("(?i)\\bdateadded\\b");
     private final AssistantProperties properties;
     private final CatalogueSearchService search;
     private final ObjectProvider<ChatModel> models;
+    private final CatalogueRepository repository;
     private final Semaphore permits;
     private final JsonMapper json = JsonMapper.builder()
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS).build();
 
     public AssistantService(AssistantProperties properties, CatalogueSearchService search,
-                            ObjectProvider<ChatModel> models) {
+                            ObjectProvider<ChatModel> models, CatalogueRepository repository) {
         this.properties = properties;
         this.search = search;
         this.models = models;
+        this.repository = repository;
         this.permits = new Semaphore(properties.maxConcurrentRequests());
     }
 
     public AssistantResponse answer(String question) {
         if (!properties.enabled()) return AssistantResponse.message(question, "The assistant is currently disabled. Please browse the catalogue.");
         var matches = search.search(question, properties.maxResults());
-        if (!search.sufficient(question, matches)) return AssistantResponse.message(question, ABSTENTION);
         List<CatalogueRecord> records = matches.stream().map(CatalogueSearchService.Match::record).toList();
+        Set<String> named = search.namedRecordIds(question);
+        if (!named.isEmpty() && METADATA.matcher(question).find() && !CONFIGURATION.matcher(question).find()) {
+            if (LIVE_RELEASE.matcher(question).find()) {
+                return AssistantResponse.message(question, "I cannot verify current or latest releases. Catalogue release metadata may be stale; consult the official documentation.");
+            }
+            if (RELEASE_QUERY.matcher(question).find() && VERSION_CAPABILITY.matcher(question).find())
+                return AssistantResponse.message(question, ABSTENTION);
+            if (!search.sufficient(question, matches)) return AssistantResponse.message(question, ABSTENTION);
+            List<CatalogueRecord> requested = records.stream().filter(record -> named.contains(record.id())).toList();
+            if (requested.stream().anyMatch(record -> !hasRequestedMetadata(question, record.metadata())))
+                return AssistantResponse.message(question, ABSTENTION);
+            List<AssistantResponse.Source> sources = requested.stream().filter(record -> trustedUrl(record.url()))
+                    .map(record -> source(record, List.of(), false)).toList();
+            if (sources.size() != named.size()) return AssistantResponse.message(question, ABSTENTION);
+            return snapshot(question, "Catalogue metadata (snapshot, not a live release check):", sources);
+        }
+        if (!search.sufficient(question, matches)) return AssistantResponse.message(question, ABSTENTION);
         Map<String, Evidence> evidence = evidence(records);
-        if (evidence.isEmpty() || !evidence.keySet().containsAll(namedCandidates(question, records)))
+        if (evidence.isEmpty() || !evidence.keySet().containsAll(named))
+            return AssistantResponse.message(question, ABSTENTION);
+        if (COMPARISON.matcher(question).find() && evidence.size() < 2)
             return AssistantResponse.message(question, ABSTENTION);
         if (!permits.tryAcquire()) return AssistantResponse.message(question, "The assistant is busy. Please try again shortly.");
         try {
@@ -64,7 +94,8 @@ public class AssistantService {
             if (model == null) return AssistantResponse.message(question, UNAVAILABLE);
             String context = context(evidence);
             // No conversation memory, tools, advisors, or caller-supplied history is attached.
-            String output = ChatClient.builder(model).defaultTemplateRenderer(new NoOpTemplateRenderer()).build().prompt().system(INSTRUCTIONS)
+            String output = ChatClient.builder(model).defaultTemplateRenderer(new NoOpTemplateRenderer()).build().prompt()
+                    .options(ChatOptions.builder().maxTokens(properties.maxAnswerTokens())).system(INSTRUCTIONS)
                     .user("Question DATA:\n" + question + "\nCatalogue DATA:\n" + context).call().content();
             return validate(question, output, evidence);
         } catch (Exception ex) {
@@ -133,33 +164,80 @@ public class AssistantService {
             if (!quotes.get(selection.sourceId()).contains(selection.quote()))
                 quotes.get(selection.sourceId()).add(selection.quote());
         }
-        Set<String> named = namedCandidates(question, evidence.values().stream().map(Evidence::record).toList());
-        if (named.size() > 1 && !quotes.keySet().containsAll(named))
+        Set<String> named = search.namedRecordIds(question);
+        if (!quotes.keySet().containsAll(named))
+            return AssistantResponse.message(question, ABSTENTION);
+        if (COMPARISON.matcher(question).find() && quotes.size() < 2)
             return AssistantResponse.message(question, ABSTENTION);
         boolean includeExamples = CONFIGURATION.matcher(question).find();
         List<AssistantResponse.Source> sources = new ArrayList<>();
         quotes.forEach((id, excerpts) -> {
             CatalogueRecord record = evidence.get(id).record;
-            List<String> examples = includeExamples ? record.examples().stream().limit(2)
-                    .filter(example -> example.length() <= properties.maxRecordCharacters()).toList() : List.of();
-            sources.add(new AssistantResponse.Source(id, record.title(), record.url(), List.copyOf(excerpts), examples));
+            sources.add(source(record, List.copyOf(excerpts), includeExamples));
         });
-        return new AssistantResponse(question, "Verbatim catalogue evidence:", List.copyOf(sources));
+        return snapshot(question, "Verbatim catalogue evidence:", List.copyOf(sources));
     }
 
-    private static Set<String> namedCandidates(String question, List<CatalogueRecord> records) {
-        Set<String> named = new LinkedHashSet<>();
-        String normalized = question.toLowerCase(Locale.ROOT);
-        records.forEach(record -> {
-            String id = record.id();
-            String slug = id.substring(id.lastIndexOf('/') + 1);
-            String shortName = slug.replace("-maven-plugin", "").replace("-plugin", "");
-            if (normalized.contains(record.title().toLowerCase(Locale.ROOT))
-                    || normalized.contains(id.toLowerCase(Locale.ROOT))
-                    || (shortName.length() >= 3 && Pattern.compile("(?i)(?<![\\p{L}\\p{N}])"
-                    + Pattern.quote(shortName) + "(?![\\p{L}\\p{N}])").matcher(question).find())) named.add(id);
-        });
-        return named;
+    private AssistantResponse snapshot(String question, String message, List<AssistantResponse.Source> sources) {
+        return new AssistantResponse(question, message, sources, repository.sourceCommit(), repository.contentSha256());
+    }
+
+    private AssistantResponse.Source source(CatalogueRecord record, List<String> excerpts, boolean includeExamples) {
+        List<String> examples = includeExamples ? record.examples().stream().limit(2)
+                .filter(example -> example.length() <= properties.maxRecordCharacters()).toList() : List.of();
+        String href = metadataText(record.metadata().get("learnMoreHref"), 2048);
+        if (!documentationUrl(href)) href = "";
+        String label = metadataText(record.metadata().get("learnMoreText"), 256);
+        if (label.isBlank()) label = "Official documentation";
+        Map<String, String> details = new LinkedHashMap<>();
+        addMetadata(details, record.metadata(), "mavenCoordinates", "Maven coordinates");
+        addMetadata(details, record.metadata(), "lastRelease", "Catalogue release (may be stale)");
+        addMetadata(details, record.metadata(), "category", "Category");
+        addMetadata(details, record.metadata(), "type", "Type");
+        addMetadata(details, record.metadata(), "tags", "Tags");
+        addMetadata(details, record.metadata(), "dateAdded", "Date added");
+        return new AssistantResponse.Source(record.id(), record.title(), record.url(), excerpts, examples,
+                label, href, java.util.Collections.unmodifiableMap(details));
+    }
+
+    private static void addMetadata(Map<String, String> details, Map<String, Object> metadata, String key, String label) {
+        String value = metadataText(metadata.get(key), 512);
+        if (!value.isBlank()) details.put(label, value);
+    }
+
+    private static String metadataText(Object value, int limit) {
+        String text;
+        if (value instanceof List<?> values) {
+            text = String.join(", ", values.stream().limit(10).filter(String.class::isInstance)
+                    .map(String.class::cast).map(item -> item.substring(0, Math.min(100, item.length()))).toList());
+        } else {
+            text = value instanceof String string ? string : "";
+        }
+        return text.length() <= limit ? text : "";
+    }
+
+    private static boolean hasRequestedMetadata(String question, Map<String, Object> metadata) {
+        if (COORDINATE_QUERY.matcher(question).find()
+                && metadataText(metadata.get("mavenCoordinates"), 512).isBlank()) return false;
+        if (RELEASE_QUERY.matcher(question).find()
+                && metadataText(metadata.get("lastRelease"), 512).isBlank()) return false;
+        if (CATEGORY_QUERY.matcher(question).find()
+                && metadataText(metadata.get("category"), 512).isBlank()) return false;
+        if (TAG_QUERY.matcher(question).find()
+                && metadataText(metadata.get("tags"), 512).isBlank()) return false;
+        if (TYPE_QUERY.matcher(question).find()
+                && metadataText(metadata.get("type"), 512).isBlank()) return false;
+        return !DATE_ADDED_QUERY.matcher(question).find() || !metadataText(metadata.get("dateAdded"), 512).isBlank();
+    }
+
+    static boolean documentationUrl(String value) {
+        try {
+            URI uri = URI.create(value);
+            return "https".equals(uri.getScheme()) && uri.getHost() != null
+                    && uri.getRawUserInfo() == null && uri.getPort() == -1;
+        } catch (IllegalArgumentException ex) {
+            return false;
+        }
     }
 
     static boolean completeExcerpt(String text, String quote) {

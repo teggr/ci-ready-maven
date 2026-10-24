@@ -8,6 +8,20 @@ deterministic tests as model-quality, latency, pricing or data-retention evidenc
 Ollama Cloud's documented API was investigated, but live authentication and
 compatibility remain launch gates.
 
+An optional credentialed smoke test exists, disabled in the ordinary suite:
+
+[source,shell]
+----
+ASSISTANT_BENCHMARK=true ./assistant/mvnw -f assistant/pom.xml \
+  -Dtest=AssistantBenchmarkTests test
+----
+
+Supply the server-side provider environment variables described in the operations
+guide. This makes real, potentially billable requests. Run it separately for each
+candidate model. It checks a few grounding cases and prints durations/source
+counts, not token prices or a complete quality score. It does not replace the
+repeated evaluation and manual evidence review below.
+
 == Fixed evaluation set
 
 Keep the catalogue commit and digest fixed across candidates. Use the questions

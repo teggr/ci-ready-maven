@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 @Controller
 public class AssistantController {
@@ -28,7 +28,7 @@ public class AssistantController {
 
     @PostMapping(value = "/assistant/chat", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.TEXT_HTML_VALUE)
-    String chat(@RequestBody(required = false) String body, Model model) {
+    String chat(@RequestAttribute(name = AssistantRequestFilter.VERIFIED_FORM_BODY, required = false) String body, Model model) {
         String question = parseQuestion(body);
         AssistantResponse response;
         if (question == null || question.isBlank() || question.length() > properties.maxQuestionLength()

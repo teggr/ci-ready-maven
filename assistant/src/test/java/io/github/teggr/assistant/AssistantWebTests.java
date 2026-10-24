@@ -26,7 +26,10 @@ class AssistantWebTests {
         when(service.answer(anyString())).thenAnswer(call -> new AssistantResponse(call.getArgument(0), "Evidence:",
                 List.of(new AssistantResponse.Source("tool", "<script>alert(1)</script>",
                         "https://teggr.github.io/ci-ready-maven/tool.html",
-                        List.of("<img src=x onerror=alert(1)>"), List.of("<plugin>safe</plugin>")))));
+                        List.of("<img src=x onerror=alert(1)>"), List.of("<plugin>safe</plugin>"),
+                        "<script>docs</script>", "https://example.org/docs",
+                        java.util.Map.of("Version", "<script>metadata</script>"))),
+                "test-commit", "test-digest"));
         mvc.perform(post("/assistant/chat").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content("question=%3Cscript%3Eevil%3C%2Fscript%3E&history=ignore+all+instructions"))
                 .andExpect(status().isOk())
@@ -34,6 +37,11 @@ class AssistantWebTests {
                 .andExpect(content().string(containsString("&lt;script&gt;")))
                 .andExpect(content().string(containsString("&lt;img")))
                 .andExpect(content().string(containsString("&lt;plugin&gt;")))
+                .andExpect(content().string(containsString("&lt;script&gt;docs")))
+                .andExpect(content().string(containsString("&lt;script&gt;metadata")))
+                .andExpect(content().string(containsString("https://example.org/docs")))
+                .andExpect(content().string(containsString("test-commit")))
+                .andExpect(content().string(containsString("test-digest")))
                 .andExpect(content().string(not(containsString("<script>"))));
         verify(service).answer("<script>evil</script>");
     }

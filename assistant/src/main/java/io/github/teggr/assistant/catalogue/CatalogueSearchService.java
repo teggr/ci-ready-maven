@@ -29,6 +29,9 @@ public final class CatalogueSearchService {
             "dependency", "versions", "release", "source", "compiler", "exec", "license",
             "assembly", "artifact", "deploy", "coverage", "format", "testing");
     private static final Pattern COMPARISON = Pattern.compile("\\b(compare|comparison|versus|vs|difference|differences|better)\\b");
+    private static final Pattern LIVE_VERSION = Pattern.compile("\\b(latest|current|today|newest)\\b");
+    private static final Pattern RECORDED_VERSION = Pattern.compile("\\b(catalogue|catalog|listed|recorded)\\b");
+    private static final Pattern VERSION = Pattern.compile("\\b(version|versions|release|released)\\b");
     private final List<Entry> entries;
 
     public CatalogueSearchService(CatalogueRepository repository) {
@@ -74,8 +77,8 @@ public final class CatalogueSearchService {
             supplied.add(match.record().id());
         }
         if (named.stream().anyMatch(entry -> !supplied.contains(entry.record.id()))) return false;
-        if (normalized.matches(".*\\b(latest|current|today|newest)\\b.*")
-                && !normalized.matches(".*\\b(catalogue|catalog|listed|recorded)\\b.*")) return false;
+        if (LIVE_VERSION.matcher(normalized).find()
+                && !RECORDED_VERSION.matcher(normalized).find()) return false;
 
         String intent = normalized;
         for (Entry entry : named) {
@@ -87,7 +90,7 @@ public final class CatalogueSearchService {
         if (COMPARISON.matcher(normalized).find() && named.size() < 2) {
             if (!named.isEmpty() || !categoryComparison(normalized, requested, matches)) return false;
         }
-        boolean version = normalized.matches(".*\\b(version|versions|release|released)\\b.*");
+        boolean version = VERSION.matcher(normalized).find();
         if (!named.isEmpty()) {
             for (Entry entry : named) {
                 if (version && (!(entry.record.metadata().get("lastRelease") instanceof String value) || value.isBlank())) return false;
@@ -125,6 +128,7 @@ public final class CatalogueSearchService {
                 token = switch (token) {
                     case "measuring", "measurement", "measurements", "measures" -> "measure";
                     case "enforcing", "enforcement", "enforces" -> "enforce";
+                    case "coordinate", "coordinates" -> "mavencoordinates";
                     default -> token;
                 };
                 result.add(token);

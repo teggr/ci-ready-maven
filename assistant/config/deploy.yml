@@ -62,6 +62,15 @@ traefik:
       - "/etc/deploy4j/letsencrypt:/letsencrypt"
   args:
     log.level: INFO
+    accessLog: "true"
+    accessLog.format: json
+    accessLog.fields.defaultMode: drop
+    accessLog.fields.names.StartUTC: keep
+    accessLog.fields.names.RequestCount: keep
+    accessLog.fields.names.RequestMethod: keep
+    accessLog.fields.names.DownstreamStatus: keep
+    accessLog.fields.names.Duration: keep
+    accessLog.fields.headers.defaultMode: drop
     entryPoints.http.address: ":80"
     entryPoints.websecure.address: ":443"
     entryPoints.http.http.redirections.entryPoint.to: websecure

@@ -1,6 +1,7 @@
 package io.github.teggr.assistant;
 
 import io.github.teggr.assistant.catalogue.CatalogueRecord;
+import io.github.teggr.assistant.catalogue.CatalogueRepository;
 import io.github.teggr.assistant.catalogue.CatalogueSearchService;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.*;
 class AssistantServiceTests {
     private final CatalogueSearchService search = mock(CatalogueSearchService.class);
     private final ChatModel model = mock(ChatModel.class);
+    private final CatalogueRepository repository = mock(CatalogueRepository.class);
     @SuppressWarnings("unchecked")
     private final ObjectProvider<ChatModel> models = mock(ObjectProvider.class);
     private AssistantService service;
@@ -48,11 +50,14 @@ class AssistantServiceTests {
 
     @BeforeEach
     void setup() {
-        service = new AssistantService(properties(Map.of()), search, models);
+        service = new AssistantService(properties(Map.of()), search, models, repository);
+        when(repository.sourceCommit()).thenReturn("test-commit");
+        when(repository.contentSha256()).thenReturn("test-digest");
         when(models.getIfAvailable()).thenReturn(model);
         when(model.getOptions()).thenReturn(org.springframework.ai.chat.prompt.ChatOptions.builder().build());
         when(search.search(anyString(), anyInt())).thenReturn(List.of(new CatalogueSearchService.Match(jacoco, 10, true)));
         when(search.sufficient(anyString(), any())).thenReturn(true);
+        when(search.namedRecordIds(anyString())).thenReturn(java.util.Set.of(jacoco.id()));
     }
 
     private void reply(String output) {
@@ -89,7 +94,7 @@ class AssistantServiceTests {
     void insufficientEvidenceAndDisabledFeatureNeverCallModel() {
         when(search.sufficient(anyString(), any())).thenReturn(false);
         assertThat(service.answer("write arbitrary code").message()).isEqualTo(AssistantService.ABSTENTION);
-        var disabled = new AssistantService(properties(Map.of("enabled", false)), search, models);
+        var disabled = new AssistantService(properties(Map.of("enabled", false)), search, models, repository);
         assertThat(disabled.answer("JaCoCo").sources()).isEmpty();
         verifyNoInteractions(model);
     }
@@ -105,6 +110,7 @@ class AssistantServiceTests {
 
     @Test
     void comparisonMustCiteEveryNamedCandidate() {
+        when(search.namedRecordIds(anyString())).thenReturn(java.util.Set.of(jacoco.id(), checkstyle.id()));
         when(search.search(anyString(), anyInt())).thenReturn(List.of(
                 new CatalogueSearchService.Match(jacoco, 10, true), new CatalogueSearchService.Match(checkstyle, 10, true)));
         reply("{\"selections\":[{\"sourceId\":\"jacoco\",\"quote\":\"Measures test coverage.\"}]}");
@@ -115,9 +121,26 @@ class AssistantServiceTests {
     }
 
     @Test
+    void categoryComparisonMustCiteAtLeastTwoDistinctSources() {
+        when(search.namedRecordIds(anyString())).thenReturn(java.util.Set.of());
+        when(search.search(anyString(), anyInt())).thenReturn(List.of(
+                new CatalogueSearchService.Match(jacoco, 10, false),
+                new CatalogueSearchService.Match(checkstyle, 10, false)));
+        for (String question : List.of("Compare Maven CI tools", "Differences between static-analysis plugins",
+                "Which static-analysis plugins are better?")) {
+            reply("{\"selections\":[{\"sourceId\":\"jacoco\",\"quote\":\"Measures test coverage.\"}]}");
+            assertThat(service.answer(question).message()).as(question).isEqualTo(AssistantService.ABSTENTION);
+            reply("{\"selections\":[{\"sourceId\":\"jacoco\",\"quote\":\"Measures test coverage.\"},"
+                    + "{\"sourceId\":\"checkstyle\",\"quote\":\"Checks source style.\"}]}");
+            assertThat(service.answer(question).sources()).as(question).hasSize(2);
+        }
+    }
+
+    @Test
     void sectionQualifiedIdsStillRequireEveryShortNamedComparisonCandidate() {
         var first = record("plugins/jacoco-maven-plugin", "JaCoCo Maven Plugin", "Measures test coverage.");
-        var second = record("plugins/checkstyle-maven-plugin", "Apache Maven Checkstyle Plugin", "Checks source style.");
+        var second = record("plugins/maven-checkstyle-plugin", "Apache Maven Checkstyle Plugin", "Checks source style.");
+        when(search.namedRecordIds(anyString())).thenReturn(java.util.Set.of(first.id(), second.id()));
         when(search.search(anyString(), anyInt())).thenReturn(List.of(
                 new CatalogueSearchService.Match(first, 10, true), new CatalogueSearchService.Match(second, 10, true)));
         reply("{\"selections\":[{\"sourceId\":\"plugins/jacoco-maven-plugin\",\"quote\":\"Measures test coverage.\"}]}");
@@ -125,8 +148,69 @@ class AssistantServiceTests {
     }
 
     @Test
+    void missingNamedRecordAfterContextTruncationAbstainsBeforeCallingModel() {
+        service = new AssistantService(properties(Map.of("max-context-characters", 1000, "max-record-characters", 500)),
+                search, models, repository);
+        var first = record("plugins/jacoco-maven-plugin", "JaCoCo Maven Plugin", "A".repeat(490) + ".");
+        var second = record("plugins/maven-checkstyle-plugin", "Apache Maven Checkstyle Plugin", "B".repeat(490) + ".");
+        when(search.namedRecordIds(anyString())).thenReturn(java.util.Set.of(first.id(), second.id()));
+        when(search.search(anyString(), anyInt())).thenReturn(List.of(
+                new CatalogueSearchService.Match(first, 10, true), new CatalogueSearchService.Match(second, 10, true)));
+        assertThat(service.answer("Compare JaCoCo and Checkstyle").message()).isEqualTo(AssistantService.ABSTENTION);
+        verifyNoInteractions(model);
+    }
+
+    @Test
+    void exactMetadataQueriesUseSnapshotWithoutModelAndKeepOfficialDocs() {
+        var record = new CatalogueRecord("plugins/jacoco-maven-plugin", "JaCoCo Maven Plugin",
+                "https://teggr.github.io/ci-ready-maven/plugins/jacoco-maven-plugin.html",
+                Map.of("mavenCoordinates", "org.jacoco:jacoco-maven-plugin", "lastRelease", "0.8.14",
+                        "category", "Coverage", "tags", List.of("Coverage"), "type", "Maven Plugin",
+                        "learnMoreHref", "https://www.jacoco.org/jacoco/trunk/doc/maven.html",
+                        "learnMoreText", "JaCoCo documentation"), "Measures test coverage.", List.of());
+        when(search.search(anyString(), anyInt())).thenReturn(List.of(new CatalogueSearchService.Match(record, 10, true)));
+        when(search.namedRecordIds(anyString())).thenReturn(java.util.Set.of(record.id()));
+        for (String question : List.of("What are the Maven coordinates for JaCoCo?", "What version of JaCoCo is in the catalogue?",
+                "What category and tags does JaCoCo have?", "What is the groupId and artifactId for JaCoCo?",
+                "What type is JaCoCo?", "What category\nand tags does JaCoCo have?")) {
+            var result = service.answer(question);
+            assertThat(result.sources()).hasSize(1);
+            assertThat(result.sources().getFirst().metadata()).containsEntry("Maven coordinates", "org.jacoco:jacoco-maven-plugin")
+                    .containsEntry("Catalogue release (may be stale)", "0.8.14").containsEntry("Tags", "Coverage");
+            assertThat(result.sources().getFirst().learnMoreHref()).isEqualTo("https://www.jacoco.org/jacoco/trunk/doc/maven.html");
+            assertThat(result.sourceCommit()).isEqualTo("test-commit");
+            assertThat(result.contentSha256()).isEqualTo("test-digest");
+        }
+        verifyNoInteractions(model);
+    }
+
+    @Test
+    void unknownReleaseAndLiveVersionQueriesAbstainWithoutModel() {
+        assertThat(service.answer("What version of JaCoCo is in the catalogue?").message()).isEqualTo(AssistantService.ABSTENTION);
+        assertThat(service.answer("What version\nof JaCoCo is in the catalogue?").message()).isEqualTo(AssistantService.ABSTENTION);
+        assertThat(service.answer("What is the latest version of JaCoCo?").message()).contains("cannot verify");
+        assertThat(service.answer("What version of JaCoCo supports Java 21?").message()).isEqualTo(AssistantService.ABSTENTION);
+        verifyNoInteractions(model);
+    }
+
+    @Test
+    void onlyHttpsDocumentationFromRepositoryMetadataIsUsed() {
+        for (String href : List.of("javascript:alert(1)", "http://example.org/docs",
+                "******example.org/docs", "/docs", "")) {
+            assertThat(AssistantService.documentationUrl(href)).isFalse();
+        }
+        assertThat(AssistantService.documentationUrl("https://example.org/docs#usage")).isTrue();
+        var record = new CatalogueRecord("jacoco", "JaCoCo", jacoco.url(),
+                Map.of("learnMoreHref", "javascript:alert(1)", "learnMoreText", "unsafe"),
+                jacoco.body(), List.of());
+        when(search.search(anyString(), anyInt())).thenReturn(List.of(new CatalogueSearchService.Match(record, 10, true)));
+        reply("{\"selections\":[{\"sourceId\":\"jacoco\",\"quote\":\"Measures test coverage.\"}]}");
+        assertThat(service.answer("JaCoCo").sources().getFirst().learnMoreHref()).isEmpty();
+    }
+
+    @Test
     void boundsSerializedContextAndRecordBodies() {
-        service = new AssistantService(properties(Map.of("max-context-characters", 1000, "max-record-characters", 500)), search, models);
+        service = new AssistantService(properties(Map.of("max-context-characters", 1000, "max-record-characters", 500)), search, models, repository);
         var records = java.util.stream.IntStream.range(0, 10)
                 .mapToObj(i -> record("tool" + i, "Tool " + i, "A complete sentence with escaped \"quotes\". ".repeat(100))).toList();
         var evidence = service.evidence(records);
@@ -148,7 +232,7 @@ class AssistantServiceTests {
 
     @Test
     void holdsConcurrencyPermitUntilBlockingModelActuallyFinishes() throws Exception {
-        service = new AssistantService(properties(Map.of("max-concurrent-requests", 1)), search, models);
+        service = new AssistantService(properties(Map.of("max-concurrent-requests", 1)), search, models, repository);
         var entered = new CountDownLatch(1);
         var release = new CountDownLatch(1);
         when(model.call(any(Prompt.class))).thenAnswer(call -> {

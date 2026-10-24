@@ -112,6 +112,11 @@ No server conversation store or database exists. Previous turns remain only in
 the bounded page DOM; reload clears them. Application logging must not include
 questions, prompts, excerpts, provider exception bodies or credentials.
 Keep infrastructure access-log bodies and provider SDK debug logging disabled.
+The sample Traefik access log allows only start time, per-instance request count,
+method, downstream status and duration. It drops headers, URLs, client addresses
+and all other fields; no request bodies are logged. Use the instance/request
+count to correlate failures and 429 rate-limit events without transcripts.
+Apply a short operational log-retention policy on the VPS.
 
 Application limits are validated under `ci-ready-maven.assistant`. Set Spring
 configuration via environment variables or an external configuration file.
@@ -147,8 +152,10 @@ digests, runs as a non-root user and has a healthcheck using Alpine's wget.
 The build context explicitly excludes Git, secrets and generated content.
 It supports `SERVER_PORT` (default 8080). Keep Deploy4j's service port and
 healthcheck aligned if changing it. Review/update pinned images for security
-updates; immutable does not mean permanently secure. Docker builds and VPS
-deployment still require operator verification.
+updates; immutable does not mean permanently secure. The local Docker build,
+non-root execution, configurable port, form endpoint and healthcheck were
+smoke-tested. VPS deployment, TLS issuance and rollback still require operator
+verification.
 
 Publish this immutable image tag using your normal authenticated registry
 workflow, separately from Deploy4j. Do not build provider secrets into an image.

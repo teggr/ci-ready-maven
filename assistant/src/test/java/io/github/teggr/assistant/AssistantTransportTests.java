@@ -32,7 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "spring.ai.model.chat=openai",
         "spring.ai.openai.api-key=local-test-not-a-secret",
         "spring.ai.openai.chat.model=transport-test-model",
+        "spring.ai.openai.chat.max-tokens=999999",
         "ci-ready-maven.assistant.enabled=true",
+        "ci-ready-maven.assistant.max-answer-tokens=700",
         "ci-ready-maven.assistant.connect-timeout-millis=100",
         "ci-ready-maven.assistant.read-timeout-millis=1000"
 })
@@ -111,7 +113,7 @@ class AssistantTransportTests {
         assertThat(requests.get()).isEqualTo(1);
         var body = new tools.jackson.databind.json.JsonMapper().readTree(requestBody.get());
         assertThat(body.path("model").asText()).isEqualTo("transport-test-model");
-        assertThat(body.path("max_tokens").asInt()).isEqualTo(1800);
+        assertThat(body.path("max_tokens").asInt()).isEqualTo(700);
         assertThat(body.path("temperature").asDouble()).isZero();
     }
 
