@@ -1,16 +1,8 @@
 ---
-title: Electrostatic Migration Spike
-description: Scope, constraints, and next steps for migrating CI Ready Maven to Electrostatic docs theme.
+title: Electrostatic Migration
+description: How CI Ready Maven builds and previews its Electrostatic docs site.
 order: 1
 slug: migration-spike
 ---
 
-This repository now includes a thin Electrostatic docs-theme spike under `/electrostatic`.
-
-Current spike goals:
-
-- prove the content model can be represented as docs pages
-- validate docs section navigation and page rendering
-- surface framework gaps before replacing the production generator
-
-See `/electrostatic-migration.md` for full feature mapping and migration gaps.
+CI Ready Maven uses the Electrostatic docs theme to render its plugin catalogue and guides. The Electrostatic Maven plugin reads the repository root, including `_plugins/`, `_guides/`, `_static/`, and `site-config.xml`, and writes the generated site to `target/generated-site/`. Use the Maven `generate` goal to build the site or the `serve` goal to preview it locally.

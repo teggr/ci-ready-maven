@@ -59,33 +59,24 @@ The body of each file is a description followed by a `## Code Example` section w
 
 ## Building the Site
 
-The site is generated with [Electrostatic](https://electrostatic.github.io/) via JBang. Content is sourced from section folders (`_guides/` and `_plugins/`) and rendered to `generated-site/`.
+The site is generated with the [Electrostatic](https://github.com/teggr/electrostatic) Maven plugin (version `0.0.5-SNAPSHOT`). Content is sourced from the root-level section folders (`_guides/` and `_plugins/`) and rendered to `target/generated-site/`.
 
 ```bash
-jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 build
+mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:generate
 ```
 
 For local preview:
 
 ```bash
-jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 serve --base-url=http://localhost:8080
+mvn io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:serve -Delectrostatic.baseUrl=http://localhost:8080
 ```
 
-GitHub Actions builds and deploys `generated-site/` to GitHub Pages on every push to `main`.
+The Maven configuration in `pom.xml` points Electrostatic at the repository root and writes output to `target/generated-site/`. GitHub Actions builds and deploys that directory to GitHub Pages on every push to `main`.
 
 
-## Electrostatic Migration Spike
+## Electrostatic
 
-This repository now runs on the Electrostatic docs theme.
-
-It includes:
-
-- docs-theme `site-config.xml`
-- plugin catalogue pages in `_plugins/`
-- guide pages in `_guides/`
-- static CSS overrides in `_static/css/`
-
-Current note: if no explicit homepage content file is provided, the docs-theme landing page uses default boilerplate copy.
+The site uses Electrostatic's docs theme, configured in `site-config.xml`, with catalogue pages in `_plugins/`, guides in `_guides/`, and CSS overrides in `_static/`. The Maven plugin automatically includes local CSS overrides after the theme stylesheets.
 
 ## Contributing
 
