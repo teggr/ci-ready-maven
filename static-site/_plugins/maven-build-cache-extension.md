@@ -7,7 +7,7 @@ name: Maven Build Cache Extension
 category: CI Extensions / Maven Extensions for Build Time
 type: Maven Extension (Apache)
 mavenCoordinates: org.apache.maven.extensions:maven-build-cache-extension
-lastRelease: "1.2.3"
+lastRelease: "1.3.0"
 learnMoreText: Maven Build Cache Extension Documentation
 learnMoreHref: https://maven.apache.org/extensions/maven-build-cache-extension/
 tags:

@@ -7,7 +7,7 @@ name: TagList Maven Plugin
 category: Quality / Reporting
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:taglist-maven-plugin
-lastRelease: "3.2.2"
+lastRelease: "3.2.3"
 learnMoreText: TagList Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/taglist-maven-plugin/
 tags:

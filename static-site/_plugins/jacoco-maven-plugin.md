@@ -7,7 +7,7 @@ name: JaCoCo Maven Plugin
 category: Coverage
 type: Maven Plugin
 mavenCoordinates: org.jacoco:jacoco-maven-plugin
-lastRelease: "0.8.13"
+lastRelease: "0.8.15"
 learnMoreText: JaCoCo Maven Plugin Documentation
 learnMoreHref: https://www.jacoco.org/jacoco/trunk/doc/maven.html
 tags:

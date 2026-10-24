@@ -7,7 +7,7 @@ name: git-commit-id-maven-plugin
 category: Git / CI
 type: Maven Plugin
 mavenCoordinates: io.github.git-commit-id:git-commit-id-maven-plugin
-lastRelease: "9.0.1"
+lastRelease: "10.0.1"
 learnMoreText: git-commit-id-maven-plugin on GitHub
 learnMoreHref: https://github.com/git-commit-id/git-commit-id-maven-plugin
 tags:

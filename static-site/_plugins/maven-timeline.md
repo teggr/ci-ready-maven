@@ -6,8 +6,8 @@ slug: maven-timeline
 name: Maven Timeline
 category: CI Extensions / Maven Extensions for Build Time
 type: Maven Extension (Takari)
-mavenCoordinates: io.takari:maven-timeline
-lastRelease: "2.0.3"
+mavenCoordinates: io.takari.maven:maven-timeline
+lastRelease: "2.1.0"
 learnMoreText: Maven Timeline on GitHub
 learnMoreHref: https://github.com/takari/maven-timeline
 tags:
@@ -27,9 +27,9 @@ Maven Timeline is a Takari Maven extension that produces a Gantt-chart-style vie
 <!-- .mvn/extensions.xml -->
 <extensions>
     <extension>
-        <groupId>io.takari</groupId>
+        <groupId>io.takari.maven</groupId>
         <artifactId>maven-timeline</artifactId>
-        <version>2.0.3</version>
+        <version>2.1.0</version>
     </extension>
 </extensions>
 ```

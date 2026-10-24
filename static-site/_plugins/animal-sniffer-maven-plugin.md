@@ -7,7 +7,7 @@ name: Animal Sniffer Maven Plugin
 category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:animal-sniffer-maven-plugin
-lastRelease: "1.26"
+lastRelease: "1.28"
 learnMoreText: Animal Sniffer Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
 tags:

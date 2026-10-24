@@ -7,7 +7,7 @@ name: SpotBugs Maven Plugin
 category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: com.github.spotbugs:spotbugs-maven-plugin
-lastRelease: "4.9.3.0"
+lastRelease: "4.10.5.0"
 learnMoreText: SpotBugs Maven Plugin Documentation
 learnMoreHref: https://spotbugs.github.io/spotbugs-maven-plugin/
 tags:

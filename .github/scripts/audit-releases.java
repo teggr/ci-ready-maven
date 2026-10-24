@@ -103,8 +103,33 @@ class AuditReleases {
                       new ComparableVersion(left).compareTo(new ComparableVersion(right)))
               .orElse(null);
       if (latestStable == null) {
-        reviews.add(
-            new Review(entry, coordinates, metadataUrl, "no stable release could be identified"));
+        String latestPublished =
+            publishedVersions.stream()
+                .max(
+                    (left, right) ->
+                        new ComparableVersion(left).compareTo(new ComparableVersion(right)))
+                .orElseThrow();
+        if (PRERELEASE.matcher(currentRelease).find()
+            && new ComparableVersion(latestPublished)
+                    .compareTo(new ComparableVersion(currentRelease))
+                > 0) {
+          updates.add(new Update(entry, markdown, latestPublished));
+          System.out.printf(
+              "UPDATE %s: %s -> %s (%s; prerelease artifact)%n",
+              entry, currentRelease, latestPublished, metadataUrl);
+        } else if (publishedVersions.contains(currentRelease)) {
+          System.out.printf(
+              "OK %s: %s (latest published version: %s)%n",
+              entry, currentRelease, latestPublished);
+        } else {
+          reviews.add(
+              new Review(
+                  entry,
+                  coordinates,
+                  metadataUrl,
+                  "no stable release could be identified; latest published version is "
+                      + latestPublished));
+        }
         continue;
       }
 
@@ -113,7 +138,8 @@ class AuditReleases {
         System.out.printf(
             "UPDATE %s: %s -> %s (%s)%n",
             entry, currentRelease, latestStable, metadataUrl);
-      } else if (PRERELEASE.matcher(currentRelease).find()) {
+      } else if (PRERELEASE.matcher(currentRelease).find()
+          && !publishedVersions.contains(currentRelease)) {
         reviews.add(
             new Review(
                 entry,

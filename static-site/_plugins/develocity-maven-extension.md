@@ -7,7 +7,7 @@ name: Develocity Maven Extension
 category: CI Extensions
 type: Maven Extension (Gradle Inc.)
 mavenCoordinates: com.gradle:develocity-maven-extension
-lastRelease: "2.4.0"
+lastRelease: "2.6.1"
 learnMoreText: Develocity Maven Extension Documentation
 learnMoreHref: https://docs.gradle.com/develocity/maven-extension/
 tags:

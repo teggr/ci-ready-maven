@@ -6,8 +6,8 @@ slug: polyglot-maven
 name: Polyglot Maven
 category: Dependency Governance
 type: Maven Plugin
-mavenCoordinates: io.takari.polyglot:polyglot-maven
-lastRelease: "0.8.0"
+mavenCoordinates: io.takari.polyglot:polyglot-kotlin
+lastRelease: "0.8.2"
 learnMoreText: Polyglot Maven on GitHub
 learnMoreHref: https://github.com/takari/polyglot-maven
 tags:
@@ -23,11 +23,10 @@ Polyglot Maven is a set of Takari Maven extensions that lets teams author Maven 
 ```xml
 <!-- .mvn/extensions.xml -->
 <extensions>
-    <!-- Replace with a dialect artifact for real usage (for example: polyglot-kotlin, polyglot-groovy, polyglot-yaml) -->
     <extension>
         <groupId>io.takari.polyglot</groupId>
-        <artifactId>polyglot-maven</artifactId>
-        <version>0.8.0</version>
+        <artifactId>polyglot-kotlin</artifactId>
+        <version>0.8.2</version>
     </extension>
 </extensions>
 ```

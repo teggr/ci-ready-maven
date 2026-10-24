@@ -7,7 +7,7 @@ name: Jib Maven Plugin
 category: Docker
 type: Maven Plugin (Google)
 mavenCoordinates: com.google.cloud.tools:jib-maven-plugin
-lastRelease: "3.5.1"
+lastRelease: "3.5.2"
 learnMoreText: Jib Maven Plugin Documentation
 learnMoreHref: https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
 tags:
