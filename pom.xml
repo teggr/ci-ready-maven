@@ -14,7 +14,7 @@
             <plugin>
                 <groupId>io.github.teggr</groupId>
                 <artifactId>electrostatic-maven-plugin</artifactId>
-                <version>0.0.5-SNAPSHOT</version>
+                <version>0.0.5</version>
                 <configuration>
                     <inputDirectory>${project.basedir}</inputDirectory>
                     <outputDirectory>${project.build.directory}/generated-site</outputDirectory>

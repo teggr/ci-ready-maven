@@ -59,16 +59,16 @@ The body of each file is a description followed by a `## Code Example` section w
 
 ## Building the Site
 
-The site is generated with the [Electrostatic](https://github.com/teggr/electrostatic) Maven plugin (version `0.0.5-SNAPSHOT`). Content is sourced from the root-level section folders (`_guides/` and `_plugins/`) and rendered to `target/generated-site/`.
+The site is generated with the [Electrostatic](https://github.com/teggr/electrostatic) Maven plugin (version `0.0.5`). Content is sourced from the root-level section folders (`_guides/` and `_plugins/`) and rendered to `target/generated-site/`.
 
 ```bash
-mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:generate
+mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5:generate
 ```
 
 For local preview:
 
 ```bash
-mvn io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:serve -Delectrostatic.baseUrl=http://localhost:8080
+mvn io.github.teggr:electrostatic-maven-plugin:0.0.5:serve -Delectrostatic.baseUrl=http://localhost:8080
 ```
 
 The Maven configuration in `pom.xml` points Electrostatic at the repository root and writes output to `target/generated-site/`. GitHub Actions builds and deploys that directory to GitHub Pages on every push to `main`.

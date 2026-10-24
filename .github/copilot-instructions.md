@@ -73,11 +73,11 @@ The body of each Markdown file must include:
 
 ## Build Process
 
-Use the Electrostatic Maven plugin (version `0.0.5-SNAPSHOT`) for local build and preview:
+Use the Electrostatic Maven plugin (version `0.0.5`) for local build and preview:
 
 ```bash
-mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:generate
-mvn io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:serve -Delectrostatic.baseUrl=http://localhost:8080
+mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5:generate
+mvn io.github.teggr:electrostatic-maven-plugin:0.0.5:serve -Delectrostatic.baseUrl=http://localhost:8080
 ```
 
 The Maven plugin reads the source directory and writes to `target/generated-site/` as configured in `pom.xml`. Local CSS overrides under `_static/` are included automatically.

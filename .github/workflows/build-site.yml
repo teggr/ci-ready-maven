@@ -39,7 +39,7 @@ jobs:
           cache: maven
 
       - name: Build site with Maven
-        run: mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5-SNAPSHOT:generate
+        run: mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5:generate
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
