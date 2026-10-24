@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<section id="catalogue-assistant" aria-labelledby="assistant-heading">
+  <h2 id="assistant-heading">Catalogue assistant</h2>
+  <p>Find cited excerpts from this catalogue. Questions are sent to the configured AI provider; do not include secrets or personal information.</p>
+  <p th:unless="${enabled}" role="status">The assistant is currently disabled. Please browse the catalogue.</p>
+  <form th:if="${enabled}" method="post" action="/assistant/chat" hx-post="/assistant/chat"
+        hx-target="#assistant-result" hx-swap="innerHTML" hx-disabled-elt="find button">
+    <label for="assistant-question">Ask about Maven CI tools</label>
+    <textarea id="assistant-question" name="question" required th:maxlength="${maxQuestionLength}" rows="3"></textarea>
+    <button type="submit">Ask</button>
+  </form>
+  <div id="assistant-result" aria-live="polite"></div>
+</section>
+</body>
+</html>

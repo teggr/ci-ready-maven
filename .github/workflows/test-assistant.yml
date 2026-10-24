@@ -1,0 +1,48 @@
+name: Test catalogue assistant
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6.1.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify service and generated index without a provider key
+        run: ./assistant/mvnw -B -f assistant/pom.xml verify
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: assistant-${{ github.sha }}
+          path: |
+            assistant/target/ci-ready-maven-assistant-*.jar
+            assistant/target/classes/catalogue.json
+          if-no-files-found: error
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6.1.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: jbangdev/setup-jbang@v0.1.1
+      - name: Install locked browser test dependencies
+        working-directory: tests/browser
+        run: npm ci
+      - name: Install Chromium
+        working-directory: tests/browser
+        run: npx playwright install --with-deps chromium
+      - name: Test desktop and mobile widget against Electrostatic
+        working-directory: tests/browser
+        run: npm test

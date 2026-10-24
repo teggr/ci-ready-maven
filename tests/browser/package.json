@@ -1,0 +1,16 @@
+{
+  "name": "ci-ready-maven-browser-tests",
+  "version": "1.0.0",
+  "description": "Deterministic catalogue assistant browser acceptance tests",
+  "private": true,
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "htmx.org": "2.0.8"
+  }
+}

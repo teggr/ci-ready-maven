@@ -44,6 +44,14 @@ jobs:
         run: |
           jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 build
 
+      - name: Build and test assistant and catalogue snapshot
+        run: ./assistant/mvnw -B -f assistant/pom.xml verify
+
+      - name: Publish versioned catalogue snapshot
+        run: |
+          mkdir -p generated-site/catalogue
+          cp assistant/target/classes/catalogue.json "generated-site/catalogue/${GITHUB_SHA}.json"
+
       - name: Upload artifact
         # Automatically uploads an artifact from the './generated-site' directory
         uses: actions/upload-pages-artifact@v5

@@ -73,6 +73,22 @@ jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 serve --base-url=http:/
 
 GitHub Actions builds and deploys `generated-site/` to GitHub Pages on every push to `main`.
 
+## Catalogue Assistant
+
+The optional homepage assistant uses a separate Java 21 / Spring Boot / Spring AI
+service in `assistant/`. It retrieves a build-generated Markdown catalogue snapshot
+and returns escaped HTMX fragments with validated evidence and source links.
+It has no database or server-side conversation history and is disabled by default.
+
+```bash
+./assistant/mvnw -f assistant/pom.xml verify
+```
+
+See [architecture](docs/assistant-architecture.adoc),
+[local development and Deploy4j operations](docs/assistant-operations.adoc), and
+[model evaluation and production launch gates](docs/assistant-evaluation.adoc).
+Provider credentials, live model evaluation and VPS verification are required
+before enabling the hosted feature; normal tests need no API key.
 
 ## Electrostatic Migration Spike
 

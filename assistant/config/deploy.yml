@@ -1,0 +1,71 @@
+# Deploy4j 0.0.6 syntax, checked against its implementation.
+# See docs/assistant-operations.adoc for the health-poller limitation.
+service: ci-ready-maven-assistant
+image: [(${env.get("ASSISTANT_IMAGE")})]
+
+servers:
+  web:
+    hosts:
+      - [(${env.get("ASSISTANT_VPS")})]
+    options:
+      memory: "768m"
+      cpus: "1"
+    labels:
+      traefik.http.routers.ci-ready-maven-assistant-web.rule: Host(`[(${env.get("ASSISTANT_HOST")})]`)
+      traefik.http.routers.ci-ready-maven-assistant-web.entrypoints: websecure
+      traefik.http.routers.ci-ready-maven-assistant-web.tls: "true"
+      traefik.http.routers.ci-ready-maven-assistant-web.tls.certresolver: letsencrypt
+      traefik.http.routers.ci-ready-maven-assistant-web.service: ci-ready-maven-assistant-web
+      traefik.http.services.ci-ready-maven-assistant-web.loadbalancer.server.port: "8080"
+      traefik.http.routers.ci-ready-maven-assistant-web.middlewares: assistant-limit
+      traefik.http.middlewares.assistant-limit.ratelimit.average: "10"
+      traefik.http.middlewares.assistant-limit.ratelimit.period: "1m"
+      traefik.http.middlewares.assistant-limit.ratelimit.burst: "5"
+
+registry:
+  username:
+    - DOCKER_USERNAME
+  password:
+    - DOCKER_PASSWORD
+
+ssh:
+  user: root
+  key_path: [(${env.get("DEPLOY_SSH_KEY")})]
+  known_hosts_path: [(${env.get("DEPLOY_KNOWN_HOSTS")})]
+  strict_host_key_checking: true
+
+env:
+  clear:
+    SERVER_PORT: "8080"
+    ASSISTANT_ENABLED: "true"
+    ASSISTANT_CHAT_PROVIDER: openai
+    ASSISTANT_API_BASE_URL: https://ollama.com/v1
+    ASSISTANT_MODEL: [(${env.get("ASSISTANT_MODEL")})]
+  secret:
+    - ASSISTANT_API_KEY
+
+healthcheck:
+  port: 8080
+  path: /actuator/health
+  cmd: wget -q --spider http://127.0.0.1:8080/actuator/health
+  interval: 5s
+  max_attempts: 20
+
+retain_containers: 3
+stop_wait_time: 30
+
+traefik:
+  options:
+    publish:
+      - "443:443"
+    volume:
+      - "/etc/deploy4j/letsencrypt:/letsencrypt"
+  args:
+    log.level: INFO
+    entryPoints.http.address: ":80"
+    entryPoints.websecure.address: ":443"
+    entryPoints.http.http.redirections.entryPoint.to: websecure
+    entryPoints.http.http.redirections.entryPoint.scheme: https
+    certificatesResolvers.letsencrypt.acme.email: [(${env.get("ACME_EMAIL")})]
+    certificatesResolvers.letsencrypt.acme.storage: /letsencrypt/acme.json
+    certificatesResolvers.letsencrypt.acme.httpChallenge.entryPoint: http

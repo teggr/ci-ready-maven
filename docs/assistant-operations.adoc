@@ -1,0 +1,237 @@
+= Assistant operations and launch gates
+
+== Build and local development
+
+Java 21 is required. The standalone application uses Spring Boot 4.1.2 and
+Spring AI 2.0.2 (BOM). These were checked on 2026-10-24 against
+https://repo.maven.apache.org/maven2/org/springframework/ai/spring-ai-bom/maven-metadata.xml[Maven Central],
+https://github.com/spring-projects/spring-ai/blob/v2.0.2/pom.xml[the AI release POM]
+and https://docs.spring.io/spring-ai/reference/getting-started.html[official compatibility documentation].
+Spring Initializr supplied the Maven Wrapper; there was no existing wrapper.
+
+From the repository root:
+
+[source,shell]
+----
+./assistant/mvnw -f assistant/pom.xml verify
+./assistant/mvnw -f assistant/pom.xml spring-boot:run -Dspring-boot.run.profiles=dev
+jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 serve --base-url=http://localhost:8080
+----
+
+Run the application on a different port, e.g. export `SERVER_PORT=8081`.
+The dev profile permits the local site origin; production permits only
+`https://teggr.github.io`, without credentials. In a local-only working copy set
+`_static/js/assistant-config.js` endpoint to
+`http://localhost:8081/assistant/chat`. Never commit a development endpoint.
+The production endpoint must be an explicit HTTPS URL ending in `/assistant/chat`.
+The widget is intentionally disabled when that URL is empty.
+
+After starting Electrostatic serve, run the existing one-time stylesheet sync
+in a second PowerShell terminal:
+
+[source,powershell]
+----
+Copy-Item "_static/css/styles-ext.css" "generated-site/css/styles-ext.css" -Force
+$linkStyle = '<link rel="stylesheet" href="/css/style.css">'
+$linkExt = '<link rel="stylesheet" href="/css/styles-ext.css">'
+Get-ChildItem "generated-site" -Recurse -Filter *.html | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    if ($content -notmatch [regex]::Escape($linkExt)) {
+        $updated = $content.Replace($linkStyle, "$linkStyle`r`n$linkExt")
+        Set-Content -Path $_.FullName -Value $updated -NoNewline
+    }
+}
+----
+
+Browser acceptance tests use a deterministic mocked fragment endpoint, not a
+paid model, and launch Electrostatic themselves if no preview is running:
+
+[source,shell]
+----
+cd tests/browser
+npm ci
+npx playwright install chromium
+npm test
+----
+
+Service unit/integration tests and browser tests need no provider credentials.
+CI runs both on pull requests. The Pages build also verifies the assistant and
+publishes `catalogue/<source-commit>.json` alongside the unchanged site.
+Do not edit or commit generated output, dependency directories or build targets.
+
+== Catalogue delivery and freshness
+
+The Maven build derives the index from `_plugins/`, `_guides/` and
+`site-config.xml`, preserving metadata, Markdown and fenced examples. It bundles
+`catalogue.json` into the jar, with source commit and a deterministic content
+digest. Application startup fails if the index is absent or invalid.
+The commit identifies the checkout; the content digest also distinguishes
+uncommitted local content. Published builds must use a clean committed checkout.
+
+Every catalogue change requires rebuilding and redeploying the service image.
+The Pages workflow publishes a versioned snapshot; it does not deploy the VPS.
+Use the same commit for Pages and the service release. No questions cause website
+scraping, index downloads, filesystem writes or Maven execution.
+
+== Provider configuration
+
+The service is off by default, with no approved production model. Export the
+variables documented in `assistant/.env.example`; Spring does not load that
+example automatically. Do not put real secrets in the file.
+
+Ollama Cloud was investigated using
+https://docs.ollama.com/cloud[Cloud documentation],
+https://docs.ollama.com/api/authentication[authentication] and
+https://docs.ollama.com/api/openai-compatibility[OpenAI compatibility].
+Use the Spring AI OpenAI-compatible adapter with base URL
+`https://ollama.com/v1`, a server-only API key, and a model returned by the
+account's authenticated model listing. The native Ollama starter's local
+configuration does not supply Cloud API-key authentication automatically.
+
+Set `ASSISTANT_ENABLED=true`, `ASSISTANT_CHAT_PROVIDER=openai`,
+`ASSISTANT_API_BASE_URL=https://ollama.com/v1`, `ASSISTANT_MODEL` and
+`ASSISTANT_API_KEY` only after testing the account's available model.
+An OpenAI-compatible provider can be switched using these variables.
+Other Spring AI providers require replacing the model starter/configuration;
+retrieval, validation and controller code depend on Spring AI interfaces.
+
+No authenticated Cloud request or live benchmark has been run in this checkout:
+credentials, billing approval and production infrastructure were not supplied.
+This is not a claim of verified live Cloud compatibility. Follow
+`assistant-evaluation.adoc` before selecting a production default.
+
+== Privacy, limits and emergency shutdown
+
+Questions go to the selected hosted provider. Do not submit secrets or personal
+information. Before launch review that provider's applicable terms, retention,
+training/data-use settings, processing region and deletion policies, and publish
+the approved provider/privacy notice beside the widget. Do not infer a
+zero-retention guarantee from an API compatibility claim.
+
+No server conversation store or database exists. Previous turns remain only in
+the bounded page DOM; reload clears them. Application logging must not include
+questions, prompts, excerpts, provider exception bodies or credentials.
+Keep infrastructure access-log bodies and provider SDK debug logging disabled.
+
+Application limits are validated under `ci-ready-maven.assistant`. Set Spring
+configuration via environment variables or an external configuration file.
+Bounds cover requests, question length, retrieval/context/excerpts, concurrency,
+rate-limit cardinality, timeouts and output. Configure provider-side usage caps
+and billing alerts separately; application rate limits are not a spending cap.
+Recheck limits with a load test before raising them.
+
+The application ignores forwarded addresses and uses the socket peer. Behind
+Traefik this is a deliberately conservative shared backstop, not a spoofable
+per-user limit. The Traefik middleware separately limits direct client IPs.
+Do not put another proxy/CDN in front without configuring trusted proxy ranges
+and verifying the edge limiter. Never trust arbitrary `X-Forwarded-For`.
+Restrict VPS ingress to SSH and Traefik ports; do not publish application ports.
+
+Disable costs immediately by setting `ASSISTANT_ENABLED=false` and redeploying,
+or stopping the application container; remove the static endpoint to hide the
+enabled widget. Revoke the provider key if necessary. Navigation remains usable.
+
+== Container build
+
+Build from the repository root, not from inside `assistant/`:
+
+[source,shell]
+----
+docker build -f assistant/Dockerfile \
+  --build-arg SOURCE_COMMIT="$(git rev-parse HEAD)" \
+  -t your-registry-user/ci-ready-maven-assistant:COMMIT .
+----
+
+The multi-stage image uses the Maven Wrapper and immutable Java 21 image
+digests, runs as a non-root user and has a healthcheck using Alpine's wget.
+The build context explicitly excludes Git, secrets and generated content.
+It supports `SERVER_PORT` (default 8080). Keep Deploy4j's service port and
+healthcheck aligned if changing it. Review/update pinned images for security
+updates; immutable does not mean permanently secure. Docker builds and VPS
+deployment still require operator verification.
+
+Publish this immutable image tag using your normal authenticated registry
+workflow, separately from Deploy4j. Do not build provider secrets into an image.
+
+== Deploy4j inspection and configuration
+
+Verified against https://github.com/teggr/deploy4j/tree/v0.0.6[Deploy4j 0.0.6],
+the latest published release inspected on 2026-10-24:
+
+* Configuration is `config/deploy.yml` with Thymeleaf expressions, not Ruby ERB.
+* Docker images must already be published; Deploy4j pulls them.
+* Traefik handles routing and Let's Encrypt HTTPS; this is not a Kamal 2 proxy.
+* `env.secret` values are written into remote environment files. Boot requests
+  mode 600, but the inspected SSH uploader ignores its mode argument. Verify and
+  enforce the actual VPS file permissions before supplying real credentials.
+* `.deploy4j/secrets` supplies secrets, with `$NAME` values resolving environment
+  variables. Merely exporting keys without the properties-file bridge is not
+  sufficient in the inspected release.
+* Role `options` forward Docker memory/CPU flags. Healthchecks need an explicit
+  path/port, and an explicit wget command avoids requiring curl.
+* Rollback is explicit and requires a retained version.
+
+Sources:
+https://github.com/teggr/deploy4j/blob/v0.0.6/deploy4j-core/src/main/java/dev/deploy4j/deploy/configuration/raw/DeployConfigYamlReader.java[configuration reader],
+https://github.com/teggr/deploy4j/blob/v0.0.6/deploy4j-core/src/main/java/dev/deploy4j/deploy/Secrets.java[secrets],
+https://github.com/teggr/deploy4j/blob/v0.0.6/deploy4j-core/src/main/java/dev/deploy4j/deploy/env/Dotenv.java[environment bridge],
+https://deploy4j.dev/guides/lets-encrypt-certificate.html[HTTPS guide].
+
+IMPORTANT: https://github.com/teggr/deploy4j/blob/v0.0.6/deploy4j-core/src/main/java/dev/deploy4j/deploy/healthcheck/Poller.java#L51-L68[The inspected health poller]
+swallows health failures; therefore deployment success is NOT proof of readiness.
+No Deploy4j changes are included here. Do not rely on automatic health-gated
+rollout or rollback. Use a staging deployment and independently verify health
+and a real request before enabling the widget. A Deploy4j fix requires a separate
+approved change; do not silently patch a dependency on the VPS.
+
+`assistant/config/deploy.yml` is a source-checked starting configuration, not an
+executed production deployment. Supply the domain/IP/image/SSH/ACME inputs listed
+in the environment example. Confirm SSH host keys out of band. Prepare DNS,
+ports 80/443 and persistent `/etc/deploy4j/letsencrypt` with restricted
+permissions. Ensure Docker starts on reboot. Review the release's default
+Traefik image for current security updates before deployment.
+First deploy with non-sensitive placeholders to inspect the remote secret-file
+locations and permissions. Restrict the containing directories to the deployment
+user (mode 700), enforce mode 600 on secret files, and verify that later uploads
+preserve protection before introducing a real provider key.
+The sample is for the default destination: adding `-d production` changes
+generated router names and requires corresponding label changes.
+All interpolated environment variables are required; Deploy4j does not reliably
+reject missing values during template evaluation.
+
+In `assistant/`, create an untracked, mode-600 `.deploy4j/secrets`:
+
+[source,properties]
+----
+DOCKER_USERNAME=$DOCKER_USERNAME
+DOCKER_PASSWORD=$DOCKER_PASSWORD
+ASSISTANT_API_KEY=$ASSISTANT_API_KEY
+----
+
+With the Deploy4j CLI installed using its official instructions:
+
+[source,shell]
+----
+deploy4j server bootstrap
+deploy4j registry login
+deploy4j setup --version COMMIT
+# Later releases:
+deploy4j deploy --version NEW_COMMIT
+# Independent post-deploy checks (do not assume setup/deploy verified these):
+curl --fail https://YOUR_HOST/actuator/health
+deploy4j app logs
+deploy4j app containers
+# Roll back explicitly to a retained image:
+deploy4j rollback --version PREVIOUS_COMMIT
+----
+
+Only health is publicly exposed by Actuator, without component/detail output.
+Health confirms application/index availability, not provider billing/availability.
+After deployment also perform an actual supported chat request, check invalid
+origins and rate limiting, inspect sanitized logs, exercise rollback and reboot.
+CPU/memory limits in the sample are starting budgets, not measured capacity.
+
+For key rotation, create the replacement provider key, update the deployment
+process environment/secret bridge, deploy, verify a real request, then revoke
+the old key. Treat Docker-inspection access and the VPS environment file as
+secret-bearing; restrict operator access.

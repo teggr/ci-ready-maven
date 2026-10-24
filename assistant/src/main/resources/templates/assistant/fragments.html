@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<article th:fragment="response" class="assistant-turn" aria-live="polite">
+  <p class="assistant-question" th:if="${!#strings.isEmpty(response.question)}"><strong>Your question:</strong> <span th:text="${response.question}"></span></p>
+  <p role="status" th:text="${response.message}"></p>
+  <section th:each="source : ${response.sources}" class="assistant-source">
+    <h3><a th:href="${source.url}" th:text="${source.title}" target="_blank" rel="noopener noreferrer"></a></h3>
+    <blockquote th:each="quote : ${source.quotes}" th:text="${quote}"></blockquote>
+    <div th:if="${!#lists.isEmpty(source.examples)}">
+      <p>Existing catalogue configuration (not generated):</p>
+      <pre th:each="example : ${source.examples}"><code th:text="${example}"></code></pre>
+    </div>
+  </section>
+</article>
+</body>
+</html>

@@ -1,0 +1,12 @@
+**
+!assistant/
+!assistant/**
+assistant/target/
+assistant/.env
+assistant/.env.*
+assistant/.deploy4j/
+!_plugins/
+!_plugins/**
+!_guides/
+!_guides/**
+!site-config.xml

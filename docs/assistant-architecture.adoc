@@ -1,0 +1,84 @@
+= Catalogue assistant architecture decision
+
+Status: proposed implementation; production model and VPS activation require operator validation.
+
+== Inspection (2026-10-24)
+
+The clean checkout has one local branch and its tracking branch. There is no
+existing Maven project, wrapper, application server, JavaScript, HTMX or test
+suite. Electrostatic 0.0.3 runs through JBang on Java 21 in
+`.github/workflows/build-site.yml`, deploying `generated-site/` to Pages.
+Generated output is ignored, not an authoritative data source.
+
+`_plugins/*.md` and `_guides/*.md` are authoritative. Plugins include YAML
+metadata and fenced configuration examples; guides have only title, description,
+order and slug. Slugs may differ from filenames (for example the maintenance
+guide). Preserve all front matter and the complete Markdown body, without
+inventing absent plugin fields for guides. Canonical links use the configured
+base URL followed by section/slug.html.
+
+The docs theme and `_static/css/styles-ext.css` remain in place. There is no
+existing browser application to extend. The latest inspected Pages workflow
+(40081607244) succeeded; no failed job logs were available.
+
+== Decisions before implementation
+
+* Add a standalone Java 21 Maven service in `assistant/`, under `io.github.teggr`.
+  Use Spring Initializr and its Maven Wrapper, Spring Boot and the compatible
+  Spring AI BOM after checking official release metadata.
+* Add a build-time index generator, not a new site renderer. Package a sorted,
+  validated JSON snapshot with source commit and content digest into the service.
+  The normal site workflow also publishes that snapshot. Rebuild the service
+  whenever catalogue content changes; no runtime scraping or synchronization.
+* Start with deterministic weighted lexical retrieval, bounded records and a
+  relevance threshold. Do not introduce embeddings, tools, databases or server
+  conversation state.
+* A citation alone cannot establish factual grounding. In this first release
+  constrain model output to selections of verbatim evidence excerpts with
+  retrieved IDs. Reject any excerpt not present in the supplied evidence.
+  Render trusted metadata, source URLs and existing code examples on the server.
+  This deliberately trades fluent paraphrasing for verifiable evidence.
+* Use HTMX form POSTs and escaped server-rendered fragments. Keep only a bounded
+  transcript in the browser DOM; do not submit prior turns. Standalone questions
+  are required, so previous answers never become authoritative evidence.
+* Default the paid feature off until the operator configures a provider, exact
+  backend URL, budget and deployment domain. Catalogue navigation still works.
+* Enforce exact-origin CORS, bounded requests, per-address rate limits, concurrent
+  model-call limits, timeouts and generic failures. Ignore forwarding headers
+  unless infrastructure is explicitly trusted. CORS is not authentication.
+* Investigate Ollama Cloud through Spring AI's supported provider interfaces;
+  do not assume the local Ollama starter supports cloud authentication unchanged.
+  No live benchmark, pricing estimate or production model approval will be
+  claimed without credentials and measured results.
+* Use only inspected Deploy4j capabilities. Do not modify Deploy4j or invent
+  proxy configuration. Record remaining infrastructure prerequisites in the
+  operational guide before enabling production.
+
+== Compatibility findings
+
+Official Spring AI 2.0.2 release sources specify Spring Boot 4.1.2, matching the
+stable versions published in Maven Central at inspection time. Use that pair,
+the AI BOM and Java 21. Spring Initializr's generated parent version suffix and
+AI version need alignment with the published metadata.
+
+Ollama Cloud documents `https://ollama.com/v1` and bearer-key authentication.
+Spring AI 2.0.2's OpenAI-compatible integration is the candidate adapter;
+native local Ollama properties alone do not configure Cloud authentication.
+This is documentation/source verification, not an authenticated smoke test.
+
+Deploy4j 0.0.6 supports the required container/proxy/secrets configuration without
+application-specific changes, but its health poller swallows readiness failures.
+The smallest compatible adjustment is an explicitly gated staging rollout and
+independent health verification, not a Deploy4j patch or a claim of automatic
+rollback safety. See the operational guide for source links and launch gates.
+
+== Evaluation and future changes
+
+Use deterministic fixtures for index validation, retrieval, injection and
+unanswerable questions, response validation, CORS, limits and fragment escaping.
+Browser acceptance checks cover desktop/mobile, previous turns, retry and
+catalogue navigation. Hosted-model evaluation is separate from ordinary tests.
+
+If lexical retrieval misses relevant entries on a fixed evaluation set, measure
+the failures before adding semantic retrieval. If free-form paraphrasing is
+introduced later, it needs stronger claim-level validation than source-ID checks.
