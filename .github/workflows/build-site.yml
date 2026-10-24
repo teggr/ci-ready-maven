@@ -36,19 +36,15 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: maven
 
-      - name: Setup JBang
-        uses: jbangdev/setup-jbang@v0.1.1
-
-      - name: Build site with JBang
-        run: |
-          jbang --fresh site.electrostatic:electrostatic-cli:0.0.3 build
+      - name: Build site with Maven
+        run: mvn -B -ntp io.github.teggr:electrostatic-maven-plugin:0.0.5:generate
 
       - name: Upload artifact
-        # Automatically uploads an artifact from the './generated-site' directory
         uses: actions/upload-pages-artifact@v5
         with:
-          path: './generated-site'
+          path: './target/generated-site'
 
   # Deployment job
   deploy:
