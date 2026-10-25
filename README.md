@@ -17,9 +17,14 @@ static-site/
     _guides/
     _plugins/
     _static/
+qa-api/
+    pom.xml
+    src/
 ```
 
 Future modules can be added alongside `static-site/` and registered in the root POM's `<modules>` list. Site generation is configured only in the static-site module, not inherited by siblings.
+
+The `qa-api/` module is a stateless Spring Boot question-and-answer API. It indexes `static-site/_plugins/` during the Maven build and packages the generated catalogue index with the application. See [`qa-api/README.md`](qa-api/README.md) for configuration, local development, API usage, resource limits and evaluation details. The API does not change static-site generation or deployment.
 
 Each tool is documented as a Markdown file with YAML front matter containing:
 
@@ -79,7 +84,7 @@ The site is generated with the [Electrostatic](https://github.com/teggr/electros
 Build all modules from the repository root:
 
 ```bash
-mvn -B -ntp clean verify
+./mvnw -B -ntp clean verify
 ```
 
 To generate only the site, run `mvn -B -ntp -pl static-site generate-resources`. For local preview, also run from the repository root:
