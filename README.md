@@ -26,6 +26,10 @@ Future modules can be added alongside `static-site/` and registered in the root 
 
 The `qa-api/` module is a stateless Spring Boot question-and-answer API. It indexes `static-site/_plugins/` during the Maven build and packages the generated catalogue index with the application. See [`qa-api/README.md`](qa-api/README.md) for configuration, local development, API usage, resource limits and evaluation details. The API does not change static-site generation or deployment.
 
+The homepage's **Ask the catalogue** form sends independent questions to `POST /api/v1/chat`. Configure the service origin in the `data-api-base-url` attribute on the homepage component in `static-site/_index.md`; it is intentionally empty until an API deployment URL is chosen. An empty value disables the question input, submit button and suggested questions, displays an availability message, and prevents API requests. Set an HTTPS origin and regenerate the site to enable it for a deployed service.
+
+For local integration testing, use separate ports for the site and API. Set `data-api-base-url` to `http://localhost:8081`, configure `QA_CORS_ALLOWED_ORIGIN` as `http://localhost:8080`, and run the API on port `8081`. Generate the preview with `-Delectrostatic.baseUrl=http://localhost:8080` before starting Electrostatic's `serve` goal with the same property; this makes the generated asset paths resolve under the local preview origin.
+
 Each tool is documented as a Markdown file with YAML front matter containing:
 
 - `name` – display name
