@@ -14,11 +14,11 @@ tools:
     toolsets:
       - repos
   bash:
-    - "jbang .github/scripts/audit-releases.java"
+    - "jbang:*"
     - "git status --short"
     - "git diff --check"
     - "git diff"
-    - "mvn -B -ntp clean verify"
+    - "mvn:*"
 
 network:
   allowed:
