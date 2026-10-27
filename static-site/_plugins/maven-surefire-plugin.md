@@ -7,7 +7,7 @@ name: Maven Surefire Plugin
 category: Test Tools
 type: Maven Plugin (Apache)
 mavenCoordinates: org.apache.maven.plugins:maven-surefire-plugin
-lastRelease: "3.6.0"
+lastRelease: "3.6.1"
 learnMoreText: Maven Surefire Plugin Documentation
 learnMoreHref: https://maven.apache.org/surefire/maven-surefire-plugin/
 tags:

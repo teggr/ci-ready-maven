@@ -7,7 +7,7 @@ name: Maven Failsafe Plugin
 category: Test Tools
 type: Maven Plugin (Apache)
 mavenCoordinates: org.apache.maven.plugins:maven-failsafe-plugin
-lastRelease: "3.6.0"
+lastRelease: "3.6.1"
 learnMoreText: Maven Failsafe Plugin Documentation
 learnMoreHref: https://maven.apache.org/surefire/maven-failsafe-plugin/
 tags:
