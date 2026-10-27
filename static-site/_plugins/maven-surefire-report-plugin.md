@@ -7,7 +7,7 @@ name: Maven Surefire Report Plugin
 category: Test Tools / Reporting
 type: Maven Plugin (Apache)
 mavenCoordinates: org.apache.maven.plugins:maven-surefire-report-plugin
-lastRelease: "3.6.0"
+lastRelease: "3.6.1"
 learnMoreText: Maven Surefire Report Plugin Documentation
 learnMoreHref: https://maven.apache.org/surefire/maven-surefire-report-plugin/
 tags:
