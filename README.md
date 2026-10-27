@@ -107,3 +107,5 @@ The site uses Electrostatic's docs theme, configured in `static-site/site-config
 ## Contributing
 
 To add a new Maven tool, create a new Markdown file in `static-site/_plugins/` following the pattern of the existing files. Open a pull request; the site will be rebuilt and deployed once the change is merged into `main`.
+
+The weekly release audit runs its JBang checker and, when updates are found, `./mvnw -B -ntp clean verify` in runner steps before starting the agent. The agent reads the audit report, reviews the diff, and proposes verified updates or entries needing review through safe outputs. Runner-installed Java tools are not assumed to be available inside the agent sandbox. Edit agentic workflow `.md` sources and regenerate their `.lock.yml` files with `gh aw compile`.
