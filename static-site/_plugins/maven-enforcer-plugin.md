@@ -7,7 +7,7 @@ name: Maven Enforcer Plugin
 category: Dependency Governance
 type: Maven Plugin
 mavenCoordinates: org.apache.maven.plugins:maven-enforcer-plugin
-lastRelease: "3.6.3"
+lastRelease: "3.7.0"
 learnMoreText: Maven Enforcer Plugin Documentation
 learnMoreHref: https://maven.apache.org/enforcer/maven-enforcer-plugin/
 tags:
