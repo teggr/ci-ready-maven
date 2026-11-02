@@ -36,7 +36,7 @@ jobs:
       - name: Build site with Maven
         run: ./mvnw -B -ntp clean verify
         env:
-          POSTHOG_KEY: ${{ vars.POSTHOG_KEY }}
+          POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
