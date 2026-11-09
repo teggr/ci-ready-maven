@@ -7,7 +7,7 @@ name: PIT Mutation Testing
 category: Coverage
 type: Maven Plugin
 mavenCoordinates: org.pitest:pitest-maven
-lastRelease: "1.30.1"
+lastRelease: "1.30.2"
 learnMoreText: PIT Maven Plugin Documentation
 learnMoreHref: https://pitest.org/quickstart/maven/
 tags:

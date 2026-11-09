@@ -7,7 +7,7 @@ name: Maven Timeline
 category: CI Extensions / Maven Extensions for Build Time
 type: Maven Extension (Takari)
 mavenCoordinates: io.takari.maven:maven-timeline
-lastRelease: "2.1.0"
+lastRelease: "2.2.0"
 learnMoreText: Maven Timeline on GitHub
 learnMoreHref: https://github.com/takari/maven-timeline
 tags:

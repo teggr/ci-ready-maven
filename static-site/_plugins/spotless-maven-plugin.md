@@ -7,7 +7,7 @@ name: Spotless Maven Plugin
 category: Source Code Policy
 type: Maven Plugin
 mavenCoordinates: com.diffplug.spotless:spotless-maven-plugin
-lastRelease: "3.10.4"
+lastRelease: "3.11.0"
 learnMoreText: Spotless Maven Plugin on GitHub
 learnMoreHref: https://github.com/diffplug/spotless/tree/main/plugin-maven
 tags:
