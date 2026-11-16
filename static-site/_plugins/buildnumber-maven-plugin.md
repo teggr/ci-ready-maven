@@ -7,7 +7,7 @@ name: Buildnumber Maven Plugin
 category: Git / CI
 type: Maven Plugin (MojoHaus)
 mavenCoordinates: org.codehaus.mojo:buildnumber-maven-plugin
-lastRelease: "3.3.1"
+lastRelease: "3.4.0"
 learnMoreText: Buildnumber Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/buildnumber-maven-plugin/
 tags:

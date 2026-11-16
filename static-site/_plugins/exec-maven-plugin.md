@@ -7,7 +7,7 @@ name: Exec Maven Plugin
 category: CI / Build
 type: Maven Plugin (MojoHaus)
 mavenCoordinates: org.codehaus.mojo:exec-maven-plugin
-lastRelease: "3.6.4"
+lastRelease: "3.7.0"
 learnMoreText: Exec Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/exec-maven-plugin/
 tags:
