@@ -7,7 +7,7 @@ name: Build Helper Maven Plugin
 category: Source Code Policy
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:build-helper-maven-plugin
-lastRelease: "3.6.2"
+lastRelease: "3.7.0"
 learnMoreText: Build Helper Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/build-helper-maven-plugin/
 tags:
