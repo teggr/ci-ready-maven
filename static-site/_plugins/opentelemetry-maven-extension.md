@@ -7,7 +7,7 @@ name: OpenTelemetry Maven Extension
 category: CI Extensions / Observability
 type: Maven Extension (OpenTelemetry / CNCF)
 mavenCoordinates: io.opentelemetry.contrib:opentelemetry-maven-extension
-lastRelease: "1.61.0-alpha"
+lastRelease: "1.62.1-alpha"
 learnMoreText: OpenTelemetry Maven Extension Documentation
 learnMoreHref: https://github.com/open-telemetry/opentelemetry-java-contrib/tree/main/maven-extension
 tags:

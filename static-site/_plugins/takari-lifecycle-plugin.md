@@ -7,7 +7,7 @@ name: Takari Lifecycle Plugin
 category: CI Extensions / Maven Extensions for Build Time
 type: Maven Plugin / Extension (Takari)
 mavenCoordinates: io.takari.maven.plugins:takari-lifecycle-plugin
-lastRelease: "2.3.4"
+lastRelease: "2.4.0"
 learnMoreText: Takari Lifecycle Plugin on GitHub
 learnMoreHref: https://github.com/takari/takari-lifecycle
 tags:

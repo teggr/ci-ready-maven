@@ -7,7 +7,7 @@ name: Templating Maven Plugin
 category: Build
 type: Maven Plugin (MojoHaus)
 mavenCoordinates: org.codehaus.mojo:templating-maven-plugin
-lastRelease: "3.1.1"
+lastRelease: "3.2.0"
 learnMoreText: Templating Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/templating-maven-plugin/
 tags:

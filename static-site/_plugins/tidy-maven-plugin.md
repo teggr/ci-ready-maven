@@ -7,7 +7,7 @@ name: Tidy Maven Plugin
 category: Source Code Policy
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:tidy-maven-plugin
-lastRelease: "1.4.1"
+lastRelease: "1.5.0"
 learnMoreText: Tidy Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/tidy-maven-plugin/
 tags:

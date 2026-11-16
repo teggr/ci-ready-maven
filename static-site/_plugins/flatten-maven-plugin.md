@@ -7,7 +7,7 @@ name: Flatten Maven Plugin
 category: CI / Build
 type: Maven Plugin (MojoHaus)
 mavenCoordinates: org.codehaus.mojo:flatten-maven-plugin
-lastRelease: "1.8.0"
+lastRelease: "1.9.0"
 learnMoreText: Flatten Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/flatten-maven-plugin/
 tags:

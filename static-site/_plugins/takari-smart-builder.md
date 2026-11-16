@@ -7,7 +7,7 @@ name: Takari Smart Builder
 category: Dependency Governance
 type: Maven Extension (Takari)
 mavenCoordinates: io.takari.maven:takari-smart-builder
-lastRelease: "1.1.1"
+lastRelease: "1.2.0"
 learnMoreText: Takari Smart Builder on GitHub
 learnMoreHref: https://github.com/takari/takari-smart-builder
 tags:
