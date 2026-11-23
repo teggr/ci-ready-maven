@@ -7,7 +7,7 @@ name: Versions Maven Plugin
 category: Dependency Governance
 type: Maven Plugin
 mavenCoordinates: org.codehaus.mojo:versions-maven-plugin
-lastRelease: "2.25.2"
+lastRelease: "2.25.3"
 learnMoreText: Versions Maven Plugin Documentation
 learnMoreHref: https://www.mojohaus.org/versions-maven-plugin/
 tags:
