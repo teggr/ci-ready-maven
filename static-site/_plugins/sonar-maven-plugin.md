@@ -7,7 +7,7 @@ name: SonarScanner for Maven
 category: Static Analysis
 type: Maven Plugin
 mavenCoordinates: org.sonarsource.scanner.maven:sonar-maven-plugin
-lastRelease: "5.8.0.7211"
+lastRelease: "5.9.0.7382"
 learnMoreText: SonarScanner for Maven Documentation
 learnMoreHref: https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner-for-maven/
 tags:
